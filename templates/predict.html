@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartX - AI Predictive Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="bg-slate-900 text-white">
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-blue-400 hover:text-blue-300 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>SmartX
+                    </a>
+                    <span class="ml-4 text-gray-400">|</span>
+                    <h1 class="ml-4 text-xl font-semibold">AI Predictive Analytics</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse mr-2"></div>
+                        <span class="text-sm text-gray-300">AI Engine Ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Input Form -->
+            <div class="lg:col-span-1">
+                <div class="bg-slate-800 rounded-lg p-6 border border-slate-700">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-brain text-green-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold">Prediction Input</h2>
+                            <p class="text-sm text-gray-400">Enter sensor data for analysis</p>
+                        </div>
+                    </div>
+
+                    <form id="predictionForm" class="space-y-6">
+                        <!-- Temperature Input -->
+                        <div>
+                            <label for="temperature" class="block text-sm font-medium text-gray-300 mb-2">
+                                <i class="fas fa-thermometer-half text-red-400 mr-2"></i>
+                                Temperature (°F)
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="temperature" name="temperature" 
+                                       class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                                       placeholder="Enter temperature" value="75" min="0" max="200">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <span class="text-gray-400 text-sm">°F</span>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <input type="range" id="tempRange" min="0" max="200" value="75" 
+                                       class="w-full h-2 bg-slate-600 rounded-lg appearance-none slider">
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>0°F</span>
+                                    <span>200°F</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pressure Input -->
+                        <div>
+                            <label for="pressure" class="block text-sm font-medium text-gray-300 mb-2">
+                                <i class="fas fa-gauge-high text-blue-400 mr-2"></i>
+                                Pressure (bar)
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="pressure" name="pressure" 
+                                       class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                                       placeholder="Enter pressure" value="1.5" min="0" max="5" step="0.1">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <span class="text-gray-400 text-sm">bar</span>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <input type="range" id="pressureRange" min="0" max="5" value="1.5" step="0.1"
+                                       class="w-full h-2 bg-slate-600 rounded-lg appearance-none slider">
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>0 bar</span>
+                                    <span>5 bar</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vibration Input -->
+                        <div>
+                            <label for="vibration" class="block text-sm font-medium text-gray-300 mb-2">
+                                <i class="fas fa-wave-square text-yellow-400 mr-2"></i>
+                                Vibration (mm/s)
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="vibration" name="vibration" 
+                                       class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                                       placeholder="Enter vibration" value="0.5" min="0" max="2" step="0.1">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <span class="text-gray-400 text-sm">mm/s</span>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <input type="range" id="vibrationRange" min="0" max="2" value="0.5" step="0.1"
+                                       class="w-full h-2 bg-slate-600 rounded-lg appearance-none slider">
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>0</span>
+                                    <span>2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Humidity Input -->
+                        <div>
+                            <label for="humidity" class="block text-sm font-medium text-gray-300 mb-2">
+                                <i class="fas fa-droplet text-cyan-400 mr-2"></i>
+                                Humidity (%)
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="humidity" name="humidity" 
+                                       class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                                       placeholder="Enter humidity" value="50" min="0" max="100">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <span class="text-gray-400 text-sm">%</span>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <input type="range" id="humidityRange" min="0" max="100" value="50"
+                                       class="w-full h-2 bg-slate-600 rounded-lg appearance-none slider">
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>0%</span>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Predict Button -->
+                        <button type="submit" id="predictBtn" 
+                                class="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 flex items-center justify-center">
+                            <i class="fas fa-brain mr-2"></i>
+                            <span id="predictBtnText">Run Prediction</span>
+                            <div id="predictSpinner" class="hidden ml-2">
+                                <i class="fas fa-spinner animate-spin"></i>
+                            </div>
+                        </button>
+
+                        <!-- Quick Presets -->
+                        <div class="pt-4 border-t border-slate-700">
+                            <p class="text-sm text-gray-400 mb-3">Quick Presets:</p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button type="button" onclick="setPreset('normal')" 
+                                        class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm transition-colors">
+                                    Normal Operation
+                                </button>
+                                <button type="button" onclick="setPreset('warning')" 
+                                        class="px-3 py-2 bg-yellow-600 hover:bg-yellow-700 rounded text-sm transition-colors">
+                                    Warning Levels
+                                </button>
+                                <button type="button" onclick="setPreset('critical')" 
+                                        class="px-3 py-2 bg-red-600 hover:bg-red-700 rounded text-sm transition-colors">
+                                    Critical Levels
+                                </button>
+                                <button type="button" onclick="setPreset('optimal')" 
+                                        class="px-3 py-2 bg-green-600 hover:bg-green-700 rounded text-sm transition-colors">
+                                    Optimal Conditions
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Risk Assessment -->
+                <div class="bg-slate-800 rounded-lg p-6 border border-slate-700">
+                    <h3 class="text-lg font-semibold mb-4">Risk Assessment</h3>
+                    <div id="predictionResults" class="hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-slate-700/50 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold mb-2" id="riskScore">--</div>
+                                <div class="text-sm text-gray-400">Risk Score</div>
+                            </div>
+                            <div class="bg-slate-700/50 rounded-lg p-4 text-center">
+                                <div class="text-lg font-semibold mb-2" id="riskLevel">--</div>
+                                <div class="text-sm text-gray-400">Risk Level</div>
+                            </div>
+                            <div class="bg-slate-700/50 rounded-lg p-4 text-center">
+                                <div class="text-sm font-medium mb-2" id="predictionTime">--</div>
+                                <div class="text-sm text-gray-400">Analysis Time</div>
+                            </div>
+                        </div>
+
+                        <!-- Risk Factors -->
+                        <div class="mb-6">
+                            <h4 class="text-md font-semibold mb-3">Identified Risk Factors</h4>
+                            <div id="riskFactors" class="space-y-2">
+                                <!-- Risk factors will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                            <h4 class="text-md font-semibold text-blue-400 mb-2">
+                                <i class="fas fa-lightbulb mr-2"></i>
+                                Recommendations
+                            </h4>
+                            <p id="recommendation" class="text-gray-300">--</p>
+                        </div>
+                    </div>
+
+                    <div id="initialState" class="text-center py-12">
+                        <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-brain text-green-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">AI Prediction Ready</h3>
+                        <p class="text-gray-400 mb-4">Enter sensor parameters and click "Run Prediction" to analyze potential risks</p>
+                        <div class="flex items-center justify-center space-x-6 text-sm text-gray-500">
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-400 mr-2"></i>
+                                Machine Learning Models
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-400 mr-2"></i>
+                                Real-time Analysis
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-400 mr-2"></i>
+                                Actionable Insights
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Historical Trends -->
+                <div class="bg-slate-800 rounded-lg p-6 border border-slate-700">
+                    <h3 class="text-lg font-semibold mb-4">Risk Trend Analysis</h3>
+                    <div class="h-64">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Action Items -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-800 rounded-lg p-6 border border-slate-700">
+                        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button onclick="window.location.href='/dashboard'" class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center justify-center">
+                                <i class="fas fa-chart-line mr-2"></i>
+                                View Live Dashboard
+                            </button>
+                            <button onclick="window.location.href='/twin'" class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors flex items-center justify-center">
+                                <i class="fas fa-cube mr-2"></i>
+                                3D Digital Twin
+                            </button>
+                            <button class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>
+                                Export Report
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800 rounded-lg p-6 border border-slate-700">
+                        <h3 class="text-lg font-semibold mb-4">Model Information</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Algorithm</span>
+                                <span class="text-white">Multi-factor Risk Assessment</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Accuracy</span>
+                                <span class="text-green-400">94.2%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Training Data</span>
+                                <span class="text-white">50K+ samples</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Last Updated</span>
+                                <span class="text-white">2 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+</body>
+</html>

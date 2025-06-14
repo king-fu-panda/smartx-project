@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartX - No-Code Workflow Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        #blocklyDiv {
+            height: calc(100vh - 200px);
+            width: 100%;
+        }
+        .blockly-toolbar {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white">
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-blue-400 hover:text-blue-300 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>SmartX
+                    </a>
+                    <span class="ml-4 text-gray-400">|</span>
+                    <h1 class="ml-4 text-xl font-semibold">No-Code Workflow Builder</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-orange-400 rounded-full animate-pulse mr-2"></div>
+                        <span class="text-sm text-gray-300">Editor Ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Toolbar -->
+    <div class="bg-slate-800 border-b border-slate-700 px-4 py-3">
+        <div class="container mx-auto">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center mr-2">
+                            <i class="fas fa-puzzle-piece text-orange-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-semibold">Visual Programming</h2>
+                            <p class="text-xs text-gray-400">Drag blocks to create automation workflows</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="clearWorkspace" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors text-sm flex items-center">
+                        <i class="fas fa-trash mr-2"></i>
+                        Clear All
+                    </button>
+                    <button id="saveWorkspace" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm flex items-center">
+                        <i class="fas fa-save mr-2"></i>
+                        Save
+                    </button>
+                    <button id="generateCode" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors text-sm flex items-center">
+                        <i class="fas fa-code mr-2"></i>
+                        Generate Code
+                    </button>
+                    <button id="downloadCode" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors text-sm flex items-center" disabled>
+                        <i class="fas fa-download mr-2"></i>
+                        Download
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-4">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <!-- Blockly Editor -->
+            <div class="lg:col-span-3">
+                <div class="bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
+                    <div class="p-4 border-b border-slate-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold">Workflow Canvas</h3>
+                            <div class="flex items-center space-x-4">
+                                <div class="text-sm text-gray-400">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Drag blocks from the toolbox to build your automation
+                                </div>
+                                <button id="zoomIn" class="px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-sm">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button id="zoomOut" class="px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-sm">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button id="centerView" class="px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-sm">
+                                    <i class="fas fa-crosshairs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="blocklyDiv"></div>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="space-y-4">
+                <!-- Code Preview -->
+                <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                    <h3 class="text-md font-semibold mb-3 flex items-center">
+                        <i class="fas fa-code text-green-400 mr-2"></i>
+                        Generated Code
+                    </h3>
+                    <div class="bg-slate-900 rounded p-3 max-h-40 overflow-y-auto">
+                        <pre id="codePreview" class="text-xs text-gray-300 whitespace-pre-wrap">// Build your workflow to see generated code...</pre>
+                    </div>
+                    <div class="mt-3 text-xs text-gray-500">
+                        <i class="fas fa-lightbulb mr-1"></i>
+                        Code updates automatically as you build
+                    </div>
+                </div>
+
+                <!-- Templates -->
+                <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                    <h3 class="text-md font-semibold mb-3 flex items-center">
+                        <i class="fas fa-template text-blue-400 mr-2"></i>
+                        Quick Templates
+                    </h3>
+                    <div class="space-y-2">
+                        <button onclick="loadTemplate('monitoring')" class="w-full px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm text-left flex items-center">
+                            <i class="fas fa-eye text-blue-400 mr-2"></i>
+                            Temperature Monitor
+                        </button>
+                        <button onclick="loadTemplate('alert')" class="w-full px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm text-left flex items-center">
+                            <i class="fas fa-bell text-yellow-400 mr-2"></i>
+                            Alert System
+                        </button>
+                        <button onclick="loadTemplate('maintenance')" class="w-full px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm text-left flex items-center">
+                            <i class="fas fa-wrench text-orange-400 mr-2"></i>
+                            Maintenance Check
+                        </button>
+                        <button onclick="loadTemplate('control')" class="w-full px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm text-left flex items-center">
+                            <i class="fas fa-cogs text-purple-400 mr-2"></i>
+                            Process Control
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Help & Tips -->
+                <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                    <h3 class="text-md font-semibold mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-cyan-400 mr-2"></i>
+                        Tips & Help
+                    </h3>
+                    <div class="space-y-3 text-sm text-gray-300">
+                        <div class="flex items-start">
+                            <i class="fas fa-mouse-pointer text-gray-500 mr-2 mt-0.5"></i>
+                            <p>Drag blocks from the toolbox to the canvas</p>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-link text-gray-500 mr-2 mt-0.5"></i>
+                            <p>Connect blocks by snapping them together</p>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-trash text-gray-500 mr-2 mt-0.5"></i>
+                            <p>Delete blocks by dragging to trash</p>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-code text-gray-500 mr-2 mt-0.5"></i>
+                            <p>Generated Python code appears automatically</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                    <h3 class="text-md font-semibold mb-3 flex items-center">
+                        <i class="fas fa-chart-bar text-green-400 mr-2"></i>
+                        Workspace Stats
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Total Blocks</span>
+                            <span id="blockCount" class="text-white font-medium">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Code Lines</span>
+                            <span id="codeLines" class="text-white font-medium">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Complexity</span>
+                            <span id="complexity" class="text-white font-medium">Simple</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Options -->
+                <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                    <h3 class="text-md font-semibold mb-3 flex items-center">
+                        <i class="fas fa-file-export text-purple-400 mr-2"></i>
+                        Export Options
+                    </h3>
+                    <div class="space-y-2">
+                        <button id="exportPython" class="w-full px-3 py-2 bg-green-600 hover:bg-green-700 rounded text-sm flex items-center justify-center" disabled>
+                            <i class="fab fa-python mr-2"></i>
+                            Python (.py)
+                        </button>
+                        <button id="exportJson" class="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm flex items-center justify-center" disabled>
+                            <i class="fas fa-file-code mr-2"></i>
+                            Workspace (.json)
+                        </button>
+                        <button id="exportXml" class="w-full px-3 py-2 bg-orange-600 hover:bg-orange-700 rounded text-sm flex items-center justify-center" disabled>
+                            <i class="fas fa-code mr-2"></i>
+                            Blocks (.xml)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden toolbox -->
+    <xml id="toolbox" style="display: none">
+        <category name="Logic" colour="#5C81A6">
+            <block type="controls_if"></block>
+            <block type="controls_ifelse"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+            <block type="logic_negate"></block>
+            <block type="logic_boolean"></block>
+        </category>
+        <category name="Loops" colour="#5CA65C">
+            <block type="controls_repeat_ext"></block>
+            <block type="controls_whileUntil"></block>
+            <block type="controls_for"></block>
+            <block type="controls_forEach"></block>
+        </category>
+        <category name="Math" colour="#5C68A6">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+            <block type="math_single"></block>
+            <block type="math_trig"></block>
+            <block type="math_constant"></block>
+            <block type="math_number_property"></block>
+            <block type="math_round"></block>
+        </category>
+        <category name="Text" colour="#5CA68D">
+            <block type="text"></block>
+            <block type="text_join"></block>
+            <block type="text_append"></block>
+            <block type="text_length"></block>
+            <block type="text_isEmpty"></block>
+        </category>
+        <category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
+        <category name="Functions" colour="#9A5CA6" custom="PROCEDURE"></category>
+        <category name="SmartX Sensors" colour="#A6745C">
+            <block type="smartx_read_temperature"></block>
+            <block type="smartx_read_pressure"></block>
+            <block type="smartx_read_vibration"></block>
+            <block type="smartx_read_humidity"></block>
+        </category>
+        <category name="SmartX Actions" colour="#A65C5C">
+            <block type="smartx_send_alert"></block>
+            <block type="smartx_log_event"></block>
+            <block type="smartx_control_machine"></block>
+            <block type="smartx_schedule_maintenance"></block>
+        </category>
+    </xml>
+
+    <!-- Code Generation Modal -->
+    <div id="codeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 rounded-lg max-w-4xl w-full max-h-[80vh] overflow-hidden">
+            <div class="p-6 border-b border-slate-700">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-semibold flex items-center">
+                        <i class="fas fa-code text-green-400 mr-2"></i>
+                        Generated Python Code
+                    </h2>
+                    <button id="closeModal" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-96">
+                <pre id="fullCodePreview" class="bg-slate-900 p-4 rounded text-sm text-gray-300 whitespace-pre-wrap overflow-x-auto"></pre>
+            </div>
+            <div class="p-6 border-t border-slate-700 flex justify-end space-x-3">
+                <button id="copyCode" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center">
+                    <i class="fas fa-copy mr-2"></i>
+                    Copy Code
+                </button>
+                <button id="downloadCodeFile" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors flex items-center">
+                    <i class="fas fa-download mr-2"></i>
+                    Download File
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/blockly-enhanced.js') }}"></script>
+</body>
+</html>
