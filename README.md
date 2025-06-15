@@ -58,10 +58,7 @@ python main.py
 This app is avaliable at https://smartx-project.onrender.com
 
 ## 🚀 Deployment
-
-### Production Deployment
-```bash
-gunicorn --bind 0.0.0.0:5000 main:app
+https://smartx-project.onrender.com
 ```
 
 ## 📁 Project Structure
