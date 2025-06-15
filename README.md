@@ -55,7 +55,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-The application will be available at `http://localhost:5000`
+This app is avaliable at https://smartx-project.onrender.com
 
 ## 🚀 Deployment
 
@@ -95,10 +95,6 @@ smartx-iot-platform/
 - `GET /nocode` - No-code workflow builder
 - `POST /api/generate-code` - Code generation API
 
-## 🔧 Configuration
-
-The application uses environment variables for configuration:
-- `SESSION_SECRET`: Flask session secret key
 
 ## 📊 Sample Data
 
@@ -109,17 +105,7 @@ The platform generates realistic sample data for demonstration:
 - Humidity: 30-70%
 - Equipment status and efficiency metrics
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🏭 Industrial Applications
 
@@ -130,10 +116,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Energy efficiency optimization
 - Safety system integration
 
-## 📞 Support
 
-For support and questions, please open an issue in the GitHub repository.
 
----
 
 **SmartX Platform** - Transforming manufacturing through intelligent IoT solutions.
