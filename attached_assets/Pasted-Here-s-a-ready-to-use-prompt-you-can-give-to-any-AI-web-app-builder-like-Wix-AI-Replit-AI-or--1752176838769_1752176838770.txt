@@ -1,0 +1,72 @@
+Here’s a **ready-to-use prompt** you can give to any AI web app builder (like Wix AI, Replit AI, or ChatGPT code assistants) to **transform your current SmartX project** into a working platform with login, real data integration, and IoT-ready capabilities:
+
+---
+
+### ✅ COPY & PASTE THIS PROMPT:
+
+---
+
+**Prompt**:
+
+I have a Flask-based web app called **SmartX** ([https://smartx-project.onrender.com](https://smartx-project.onrender.com)). It includes the following pages:
+
+* `/dashboard` for real-time factory monitoring
+* `/twin` for 3D digital twin view
+* `/predict` for AI-based risk analysis
+* `/nocode` for no-code workflow builder
+
+Right now, it uses **random values** for sensor data. I am a beginner in coding. Please help me **add the following features step by step** to make this app production-ready:
+
+---
+
+### 🔐 1. Add User Login System
+
+* Use `Flask-Login` to implement login/logout
+* Use in-memory dummy users:
+
+  * `admin:admin123` (role = "admin")
+  * `tech:tech123` (role = "technician")
+  * `viewer:viewer123` (role = "viewer")
+* Protect routes like `/dashboard`, `/predict`, etc., with `@login_required`
+* Add a `/login` and `/logout` route
+* Create a simple `login.html` with username/password input
+
+---
+
+### 📡 2. Add IoT Device Data Receiver
+
+* Create a POST endpoint `/api/device-data` that accepts sensor data (JSON)
+
+  * Fields: `temperature`, `pressure`, `vibration`, `humidity`, `status`, `efficiency`
+* Replace `/api/dashboard` to return the latest posted data (fallback to random if none exists)
+* Store incoming data in a `data.json` file
+
+---
+
+### 💾 3. Store & Read from JSON File
+
+* When device sends data → save to `data.json`
+* In dashboard & prediction APIs → read from `data.json` if available
+
+---
+
+### 🧪 4. Keep Existing Routes Working
+
+* Do **not** remove `/predict`, `/twin`, or `/nocode` routes
+* All APIs and HTML templates should continue to work with the new data
+
+---
+
+### ⚠️ Important Notes
+
+* Do not use any external database for now (keep it file-based)
+* I’m a beginner, so please keep code clean and explain any changes if possible
+* Optional: create a sample Python script that sends test data to `/api/device-data` for testing
+
+---
+
+You will be modifying my `app.py`, `login.html`, and dashboard API logic.
+
+---
+
+Let me know once it's done or if you need any other prompt tailored for another platform.
