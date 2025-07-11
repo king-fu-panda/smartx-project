@@ -4,3 +4,9 @@ Flask-Login>=0.6.0
 gunicorn>=23.0.0
 email-validator>=2.2.0
 requests>=2.31.0
+flask-pymongo
+paho-mqtt
+pymongo
+flask-pymongo
+paho-mqtt
+pymongo
