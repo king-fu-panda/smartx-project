@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartX No-Code Builder</title>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
+    <script src="https://unpkg.com/blockly/python_compressed.js"></script>
+    <script src="https://unpkg.com/blockly/msg/en.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blockly-container { height: calc(100vh - 160px); }
+        .code-preview { max-height: 300px; overflow-y: auto; }
+        .modal-enter { animation: modalEnter 0.3s ease-out; }
+        @keyframes modalEnter {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #374151;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tab-active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .tab-inactive {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <!-- Header -->
+    <header class="bg-gray-800 shadow-lg p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-blue-400">
+                    <i class="fas fa-cube mr-2"></i>SmartX No-Code Builder
+                </h1>
+                <div class="bg-blue-600 px-3 py-1 rounded-full text-sm">
+                    <i class="fas fa-magic mr-1"></i>Enhanced
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <a href="/dashboard" class="text-gray-300 hover:text-white transition">
+                    <i class="fas fa-arrow-left mr-1"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-4">
+        <!-- Toolbar -->
+        <div class="bg-gray-800 rounded-lg p-4 mb-4 shadow-lg">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <!-- File Operations -->
+                <div class="flex items-center space-x-2">
+                    <button id="newWorkspace" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-file mr-2"></i>New
+                        <span class="tooltiptext">Create new workspace</span>
+                    </button>
+                    <button id="saveWorkspace" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-save mr-2"></i>Save
+                        <span class="tooltiptext">Save current workspace</span>
+                    </button>
+                    <button id="loadWorkspace" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-folder-open mr-2"></i>Load
+                        <span class="tooltiptext">Load saved workspace</span>
+                    </button>
+                    <button id="clearWorkspace" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-trash mr-2"></i>Clear
+                        <span class="tooltiptext">Clear all blocks</span>
+                    </button>
+                </div>
+
+                <!-- View Controls -->
+                <div class="flex items-center space-x-2">
+                    <button id="zoomIn" class="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-search-plus"></i>
+                        <span class="tooltiptext">Zoom in</span>
+                    </button>
+                    <button id="zoomOut" class="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-search-minus"></i>
+                        <span class="tooltiptext">Zoom out</span>
+                    </button>
+                    <button id="centerView" class="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-crosshairs"></i>
+                        <span class="tooltiptext">Center view</span>
+                    </button>
+                    <button id="fullscreen" class="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-expand"></i>
+                        <span class="tooltiptext">Toggle fullscreen</span>
+                    </button>
+                </div>
+
+                <!-- Code Generation -->
+                <div class="flex items-center space-x-2">
+                    <button id="generateCode" class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-code mr-2"></i>Generate Code
+                        <span class="tooltiptext">Generate Python code</span>
+                    </button>
+                    <button id="validateBlocks" class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-check-circle mr-2"></i>Validate
+                        <span class="tooltiptext">Validate block logic</span>
+                    </button>
+                    <button id="runSimulation" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition tooltip">
+                        <i class="fas fa-play mr-2"></i>Simulate
+                        <span class="tooltiptext">Run simulation</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Template Quick Actions -->
+            <div class="mt-4 pt-4 border-t border-gray-600">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="text-sm text-gray-300">Quick Templates:</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="loadTemplate('monitoring')" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm transition">
+                        <i class="fas fa-chart-line mr-1"></i>Monitoring
+                    </button>
+                    <button onclick="loadTemplate('alert')" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>Alert System
+                    </button>
+                    <button onclick="loadTemplate('maintenance')" class="bg-yellow-600 hover:bg-yellow-700 px-3 py-1 rounded text-sm transition">
+                        <i class="fas fa-wrench mr-1"></i>Maintenance
+                    </button>
+                    <button onclick="loadTemplate('control')" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm transition">
+                        <i class="fas fa-cogs mr-1"></i>Control Logic
+                    </button>
+                    <button onclick="loadTemplate('data_processing')" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm transition">
+                        <i class="fas fa-database mr-1"></i>Data Processing
+                    </button>
+                    <button onclick="loadTemplate('ml_prediction')" class="bg-indigo-600 hover:bg-indigo-700 px-3 py-1 rounded text-sm transition">
+                        <i class="fas fa-brain mr-1"></i>ML Prediction
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <!-- Blockly Workspace -->
+            <div class="lg:col-span-3 bg-gray-800 rounded-lg shadow-lg">
+                <div class="p-4 border-b border-gray-600 flex justify-between items-center">
+                    <h2 class="text-lg font-semibold">Visual Workflow Builder</h2>
+                    <div class="flex items-center space-x-4 text-sm">
+                        <span>Blocks: <span id="blockCount" class="font-bold text-blue-400">0</span></span>
+                        <span>Lines: <span id="codeLines" class="font-bold text-green-400">0</span></span>
+                        <span>Complexity: <span id="complexity" class="font-bold text-yellow-400">Simple</span></span>
+                    </div>
+                </div>
+                <div id="blocklyDiv" class="blockly-container"></div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="bg-gray-800 rounded-lg shadow-lg">
+                <!-- Tabs -->
+                <div class="flex border-b border-gray-600">
+                    <button id="previewTab" class="tab-active flex-1 px-4 py-2 text-sm font-medium">
+                        <i class="fas fa-eye mr-1"></i>Preview
+                    </button>
+                    <button id="exportTab" class="tab-inactive flex-1 px-4 py-2 text-sm font-medium">
+                        <i class="fas fa-download mr-1"></i>Export
+                    </button>
+                    <button id="helpTab" class="tab-inactive flex-1 px-4 py-2 text-sm font-medium">
+                        <i class="fas fa-question mr-1"></i>Help
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="previewContent" class="p-4">
+                    <h3 class="text-lg font-semibold mb-3">Code Preview</h3>
+                    <div class="bg-gray-900 rounded-lg p-3 code-preview">
+                        <pre id="codePreview" class="text-sm text-green-400 font-mono whitespace-pre-wrap">// Build your workflow to see generated code...</pre>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        <button id="copyPreview" class="w-full bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded transition">
+                            <i class="fas fa-copy mr-2"></i>Copy Code
+                        </button>
+                        <button id="downloadPreview" class="w-full bg-green-600 hover:bg-green-700 px-3 py-2 rounded transition">
+                            <i class="fas fa-download mr-2"></i>Download
+                        </button>
+                    </div>
+                </div>
+
+                <div id="exportContent" class="p-4 hidden">
+                    <h3 class="text-lg font-semibold mb-3">Export Options</h3>
+                    <div class="space-y-3">
+                        <button id="exportPython" class="w-full bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded transition">
+                            <i class="fab fa-python mr-2"></i>Export Python (.py)
+                        </button>
+                        <button id="exportJson" class="w-full bg-yellow-600 hover:bg-yellow-700 px-3 py-2 rounded transition">
+                            <i class="fas fa-file-code mr-2"></i>Export JSON (.json)
+                        </button>
+                        <button id="exportXml" class="w-full bg-green-600 hover:bg-green-700 px-3 py-2 rounded transition">
+                            <i class="fas fa-file-alt mr-2"></i>Export XML (.xml)
+                        </button>
+                        <button id="exportImage" class="w-full bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded transition">
+                            <i class="fas fa-image mr-2"></i>Export Image (.png)
+                        </button>
+                        <hr class="border-gray-600">
+                        <button id="shareWorkspace" class="w-full bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded transition">
+                            <i class="fas fa-share mr-2"></i>Share Workspace
+                        </button>
+                    </div>
+                </div>
+
+                <div id="helpContent" class="p-4 hidden">
+                    <h3 class="text-lg font-semibold mb-3">Quick Help</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="bg-gray-700 p-3 rounded">
+                            <h4 class="font-medium mb-1">Getting Started</h4>
+                            <p class="text-gray-300">Drag blocks from the toolbox to build your automation workflow.</p>
+                        </div>
+                        <div class="bg-gray-700 p-3 rounded">
+                            <h4 class="font-medium mb-1">SmartX Blocks</h4>
+                            <p class="text-gray-300">Use sensor and control blocks for IoT automation.</p>
+                        </div>
+                        <div class="bg-gray-700 p-3 rounded">
+                            <h4 class="font-medium mb-1">Templates</h4>
+                            <p class="text-gray-300">Load pre-built templates for common use cases.</p>
+                        </div>
+                        <div class="bg-gray-700 p-3 rounded">
+                            <h4 class="font-medium mb-1">Code Generation</h4>
+                            <p class="text-gray-300">Generate Python code that you can run directly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Toolbox -->
+    <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+        <category name="Logic" colour="#5b80a5">
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+            <block type="logic_negate"></block>
+            <block type="logic_boolean"></block>
+            <block type="logic_null"></block>
+            <block type="logic_ternary"></block>
+        </category>
+        
+        <category name="Loops" colour="#5ba55b">
+            <block type="controls_repeat_ext"></block>
+            <block type="controls_whileUntil"></block>
+            <block type="controls_for"></block>
+            <block type="controls_forEach"></block>
+            <block type="controls_flow_statements"></block>
+        </category>
+        
+        <category name="Math" colour="#5b67a5">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+            <block type="math_single"></block>
+            <block type="math_trig"></block>
+            <block type="math_constant"></block>
+            <block type="math_number_property"></block>
+            <block type="math_round"></block>
+            <block type="math_on_list"></block>
+            <block type="math_modulo"></block>
+            <block type="math_constrain"></block>
+            <block type="math_random_int"></block>
+            <block type="math_random_float"></block>
+        </category>
+        
+        <category name="Text" colour="#5ba58c">
+            <block type="text"></block>
+            <block type="text_join"></block>
+            <block type="text_append"></block>
+            <block type="text_length"></block>
+            <block type="text_isEmpty"></block>
+            <block type="text_indexOf"></block>
+            <block type="text_charAt"></block>
+            <block type="text_getSubstring"></block>
+            <block type="text_changeCase"></block>
+            <block type="text_trim"></block>
+            <block type="text_print"></block>
+            <block type="text_prompt_ext"></block>
+        </category>
+        
+        <category name="Lists" colour="#745ba5">
+            <block type="lists_create_with"></block>
+            <block type="lists_repeat"></block>
+            <block type="lists_length"></block>
+            <block type="lists_isEmpty"></block>
+            <block type="lists_indexOf"></block>
+            <block type="lists_getIndex"></block>
+            <block type="lists_setIndex"></block>
+            <block type="lists_getSublist"></block>
+            <block type="lists_split"></block>
+            <block type="lists_sort"></block>
+        </category>
+        
+        <category name="Variables" colour="#a55b80" custom="VARIABLE"></category>
+        
+        <category name="Functions" colour="#995ba5" custom="PROCEDURE"></category>
+        
+        <category name="SmartX Sensors" colour="#ff6b35">
+            <block type="smartx_read_temperature"></block>
+            <block type="smartx_read_pressure"></block>
+            <block type="smartx_read_vibration"></block>
+            <block type="smartx_read_humidity"></block>
+            <block type="smartx_read_power"></block>
+            <block type="smartx_read_flow"></block>
+            <block type="smartx_read_level"></block>
+            <block type="smartx_read_ph"></block>
+            <block type="smartx_read_conductivity"></block>
+            <block type="smartx_read_gas"></block>
+        </category>
+        
+        <category name="SmartX Actions" colour="#ff9500">
+            <block type="smartx_send_alert"></block>
+            <block type="smartx_log_event"></block>
+            <block type="smartx_control_machine"></block>
+            <block type="smartx_schedule_maintenance"></block>
+            <block type="smartx_send_notification"></block>
+            <block type="smartx_update_database"></block>
+            <block type="smartx_trigger_alarm"></block>
+            <block type="smartx_create_report"></block>
+        </category>
+        
+        <category name="Data Processing" colour="#00a8cc">
+            <block type="smartx_filter_data"></block>
+            <block type="smartx_calculate_average"></block>
+            <block type="smartx_find_anomaly"></block>
+            <block type="smartx_aggregate_data"></block>
+            <block type="smartx_transform_data"></block>
+            <block type="smartx_validate_data"></block>
+        </category>
+        
+        <category name="ML & AI" colour="#6a4c93">
+            <block type="smartx_predict_failure"></block>
+            <block type="smartx_classify_data"></block>
+            <block type="smartx_optimize_process"></block>
+            <block type="smartx_detect_pattern"></block>
+            <block type="smartx_forecast_trend"></block>
+        </category>
+        
+        <category name="Communication" colour="#1982c4">
+            <block type="smartx_mqtt_publish"></block>
+            <block type="smartx_mqtt_subscribe"></block>
+            <block type="smartx_http_request"></block>
+            <block type="smartx_send_email"></block>
+            <block type="smartx_webhook"></block>
+        </category>
+        
+        <category name="Time & Schedule" colour="#8ac926">
+            <block type="smartx_wait_seconds"></block>
+            <block type="smartx_get_timestamp"></block>
+            <block type="smartx_schedule_task"></block>
+            <block type="smartx_check_time_range"></block>
+            <block type="smartx_format_datetime"></block>
+        </category>
+    </xml>
+
+    <!-- Code Generation Modal -->
+    <div id="codeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-lg p-6 w-11/12 h-5/6 max-w-6xl">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Generated Python Code</h2>
+                <button id="closeModal" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="bg-gray-900 rounded-lg p-4 h-5/6 overflow-auto">
+                <pre id="fullCodePreview" class="text-sm text-green-400 font-mono whitespace-pre-wrap"></pre>
+            </div>
+            <div class="flex justify-end space-x-3 mt-4">
+                <button id="copyCode" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">
+                    <i class="fas fa-copy mr-2"></i>Copy Code
+                </button>
+                <button id="downloadCodeFile" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition">
+                    <i class="fas fa-download mr-2"></i>Download File
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/blockly-enhanced.js') }}"></script>
+</body>
+</html>
