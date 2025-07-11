@@ -1367,10 +1367,7 @@ if __name__ == "__main__":
         print("\\nMonitoring system stopped.")
 """
 
-# Initialize MQTT when app starts
-@app.before_first_request
-def before_first_request():
-    initialize_mqtt()
-
 if __name__ == "__main__":
+    # Initialize MQTT when app starts
+    initialize_mqtt()
     app.run(host="0.0.0.0", port=5000, debug=True)
