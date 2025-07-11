@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartX - Industrial IoT Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .feature-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .feature-card:hover { transform: translateY(-4px); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceWords { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-5px); } 60% { transform: translateY(-3px); } }
+        .animate-fade-in { animation: fadeIn 1s ease-out; }
+        .animate-slide-up { animation: slideUp 1.2s ease-out 0.3s both; }
+        .animate-bounce-words { animation: bounceWords 2s ease-in-out infinite; }
+        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 min-h-screen">
+    <!-- Hero Section -->
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="p-6">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-cube text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-white">SmartX</h1>
+                </div>
+                <a href="/login" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login to Platform
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Hero Content -->
+        <div class="flex-1 flex items-center justify-center px-4">
+            <div class="text-center max-w-6xl mx-auto">
+                <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 animate-fade-in">
+                    Smart<span class="text-blue-400">X</span>
+                </h1>
+                <div class="mb-8">
+                    <p class="text-2xl md:text-3xl text-gray-300 font-light animate-slide-up">
+                        <span class="inline-block animate-bounce-words">🚀 Welcome to the Future of</span>
+                        <span class="text-blue-400 block md:inline"> Smart Manufacturing!</span>
+                    </p>
+                </div>
+                <p class="text-lg text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+                    Transform your industrial operations with cutting-edge IoT technology, AI-powered analytics, 
+                    and intelligent automation. Experience real-time monitoring, predictive maintenance, 
+                    and seamless workflow automation all in one powerful platform.
+                </p>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 max-w-4xl mx-auto">
+                    <div class="glass-card rounded-lg p-4">
+                        <div class="text-3xl font-bold text-blue-400">24/7</div>
+                        <div class="text-sm text-gray-300">Real-time Monitoring</div>
+                    </div>
+                    <div class="glass-card rounded-lg p-4">
+                        <div class="text-3xl font-bold text-green-400">90%</div>
+                        <div class="text-sm text-gray-300">Prediction Accuracy</div>
+                    </div>
+                    <div class="glass-card rounded-lg p-4">
+                        <div class="text-3xl font-bold text-purple-400">3D</div>
+                        <div class="text-sm text-gray-300">Digital Twin View</div>
+                    </div>
+                    <div class="glass-card rounded-lg p-4">
+                        <div class="text-3xl font-bold text-orange-400">No-Code</div>
+                        <div class="text-sm text-gray-300">Workflow Builder</div>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+                    <a href="/login" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i class="fas fa-rocket mr-2"></i>
+                        Start Your Journey
+                    </a>
+                    <a href="#features" class="inline-flex items-center px-8 py-4 glass-card text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Explore Features
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="text-center pb-8 animate-bounce">
+            <a href="#features" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    Powerful Features for <span class="text-blue-400">Smart Industry</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Discover how SmartX revolutionizes industrial operations with advanced IoT technology and AI-driven insights.
+                </p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Real-Time Dashboard -->
+                <div class="feature-card glass-card rounded-2xl p-8 hover:bg-white/20 transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-chart-line text-2xl text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Real-Time Dashboard</h3>
+                            <p class="text-blue-400 font-semibold">Live Monitoring & Analytics</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Monitor your entire factory floor in real-time with interactive dashboards. Track KPIs, 
+                        equipment health, production metrics, and quality control with advanced analytics and 
+                        customizable visualizations.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Live sensor data
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Performance metrics
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Alert management
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Historical trends
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3D Digital Twin -->
+                <div class="feature-card glass-card rounded-2xl p-8 hover:bg-white/20 transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-cube text-2xl text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">3D Digital Twin</h3>
+                            <p class="text-purple-400 font-semibold">Virtual Machine Simulation</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Experience your factory in stunning 3D visualization. Monitor equipment status, 
+                        simulate processes, and visualize data flows with our interactive digital twin 
+                        technology powered by advanced 3D graphics.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>3D visualization
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Interactive controls
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Real-time sync
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Virtual testing
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Predictive Analytics -->
+                <div class="feature-card glass-card rounded-2xl p-8 hover:bg-white/20 transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-brain text-2xl text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">AI Predictive Analytics</h3>
+                            <p class="text-green-400 font-semibold">Intelligent Forecasting</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Leverage AI and machine learning to predict equipment failures, optimize maintenance 
+                        schedules, and prevent costly downtime. Our advanced algorithms analyze patterns 
+                        to provide actionable insights with 90% accuracy.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Failure prediction
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Maintenance optimization
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Risk assessment
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Cost reduction
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No-Code Workflow Builder -->
+                <div class="feature-card glass-card rounded-2xl p-8 hover:bg-white/20 transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-puzzle-piece text-2xl text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">No-Code Builder</h3>
+                            <p class="text-orange-400 font-semibold">Visual Workflow Creation</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Create complex automation workflows without coding expertise. Drag-and-drop interface 
+                        lets you build sophisticated manufacturing processes, quality control systems, 
+                        and maintenance protocols that generate production-ready code.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Visual programming
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Code generation
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Process automation
+                        </div>
+                        <div class="flex items-center text-green-400">
+                            <i class="fas fa-check mr-2"></i>Template library
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Call to Action -->
+            <div class="text-center mt-16">
+                <div class="glass-card rounded-2xl p-8 max-w-4xl mx-auto">
+                    <h3 class="text-3xl font-bold text-white mb-4">Ready to Transform Your Manufacturing?</h3>
+                    <p class="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
+                        Join thousands of manufacturers who have revolutionized their operations with SmartX. 
+                        Start your journey to smart manufacturing today!
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="/login" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-rocket mr-2"></i>
+                            Access Full Platform
+                        </a>
+                        <div class="text-gray-400 flex flex-col sm:flex-row items-center gap-2">
+                            <span class="text-sm">Demo Credentials:</span>
+                            <span class="text-xs bg-gray-700/50 px-3 py-1 rounded">admin:admin123 | tech:tech123 | viewer:viewer123</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-700/50 bg-slate-900/50 backdrop-blur-sm py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center mb-4">
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-cube text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-white">SmartX</span>
+            </div>
+            <p class="text-gray-400 mb-2">Industrial IoT Platform for Smart Manufacturing</p>
+            <p class="text-gray-500 text-sm">Powered by advanced analytics, machine learning, and real-time monitoring</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add animation delay to feature cards
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.classList.add('animate-fade-in');
+        });
+    </script>
+</body>
+</html>

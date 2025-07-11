@@ -24,7 +24,7 @@ mongo = PyMongo(app)
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'start_page'
 
 # MQTT Configuration
 MQTT_BROKER = os.environ.get("MQTT_BROKER", "localhost")
@@ -164,7 +164,7 @@ def login():
             user = User(username, users[username]['role'])
             login_user(user)
             flash(f"Welcome, {username}!", "success")
-            return redirect(url_for('dashboard_page'))
+            return redirect(url_for('home'))
         else:
             flash("Invalid username or password", "error")
     
@@ -175,9 +175,14 @@ def login():
 def logout():
     logout_user()
     flash("You have been logged out", "info")
-    return redirect(url_for('login'))
+    return redirect(url_for('start_page'))
 
 @app.route("/")
+def start_page():
+    return render_template("start.html")
+
+@app.route("/home")
+@login_required
 def home():
     return render_template("index.html")
 
