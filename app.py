@@ -332,30 +332,74 @@ def twin_data():
             "pressure": stored_data.get("pressure", 1.5),
             "vibration": stored_data.get("vibration", 0.5),
             "humidity": stored_data.get("humidity", 50),
-            "rpm": random.randint(1000, 3000),
-            "power": round(random.uniform(50, 200), 1),
+            "rpm": stored_data.get("rpm", random.randint(1000, 3000)),
+            "power": stored_data.get("power", round(random.uniform(50, 200), 1)),
             "status": stored_data.get("status", "Operating").replace("Running", "Operating"),
             "alerts": []
         }
     else:
+        # Generate realistic random sensor data
+        base_temp = 75
+        temp_variation = random.gauss(0, 8)
+        temperature = max(60, min(100, base_temp + temp_variation))
+        
+        base_pressure = 1.5
+        pressure_variation = random.gauss(0, 0.3)
+        pressure = max(1.0, min(2.5, base_pressure + pressure_variation))
+        
+        base_vibration = 0.3
+        vibration_variation = random.gauss(0, 0.15)
+        vibration = max(0.1, min(1.2, base_vibration + vibration_variation))
+        
+        base_humidity = 50
+        humidity_variation = random.gauss(0, 5)
+        humidity = max(30, min(70, base_humidity + humidity_variation))
+        
+        # RPM varies based on machine load
+        base_rpm = 1800
+        rpm_variation = random.gauss(0, 200)
+        rpm = max(800, min(3000, base_rpm + rpm_variation))
+        
+        # Power consumption correlates with RPM and load
+        base_power = 120
+        power_variation = (rpm - 1800) * 0.05 + random.gauss(0, 15)
+        power = max(50, min(250, base_power + power_variation))
+        
+        # Status based on sensor readings
+        if temperature > 90 or pressure > 2.2 or vibration > 1.0:
+            status = "Critical"
+        elif temperature > 85 or pressure > 2.0 or vibration > 0.8:
+            status = "Warning"
+        else:
+            status = "Operating"
+        
         data = {
-            "temperature": random.randint(60, 100),
-            "pressure": round(random.uniform(1.0, 2.5), 2),
-            "vibration": round(random.uniform(0.1, 1.0), 2),
-            "humidity": random.randint(30, 70),
-            "rpm": random.randint(1000, 3000),
-            "power": round(random.uniform(50, 200), 1),
-            "status": random.choice(["Operating", "Warning", "Critical"]),
-            "alerts": []
+            "temperature": round(temperature, 1),
+            "pressure": round(pressure, 2),
+            "vibration": round(vibration, 2),
+            "humidity": round(humidity, 1),
+            "rpm": round(rpm),
+            "power": round(power, 1),
+            "status": status,
+            "alerts": [],
+            "efficiency": max(60, min(98, 95 - (temperature - 75) * 0.5 - (vibration - 0.3) * 10)),
+            "uptime": f"{random.randint(12, 168)}h {random.randint(0, 59)}m"
         }
     
     # Add alerts based on conditions
+    alerts = []
     if data["temperature"] > 85:
-        data["alerts"].append("High Temperature Alert")
+        alerts.append("High Temperature Alert")
     if data["pressure"] > 2.0:
-        data["alerts"].append("Pressure Warning")
+        alerts.append("Pressure Warning")
     if data["vibration"] > 0.8:
-        data["alerts"].append("Excessive Vibration")
+        alerts.append("Excessive Vibration")
+    if data["humidity"] < 35 or data["humidity"] > 65:
+        alerts.append("Humidity Out of Range")
+    if data["rpm"] > 2800:
+        alerts.append("High RPM Warning")
+    
+    data["alerts"] = alerts
     
     return jsonify(data)
 
