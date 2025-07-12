@@ -348,6 +348,11 @@
                 <div class="bg-slate-800 rounded-lg p-6 border border-slate-700">
                     <h3 class="text-lg font-semibold mb-4">Actions</h3>
                     <div class="space-y-2">
+                        <div class="flex space-x-2">
+                            <a href="/home" class="text-gray-300 hover:text-white transition">
+                                <i class="fas fa-arrow-left mr-1"></i>Back to Features
+                            </a>
+                        </div>
                         <button onclick="window.location.href='/dashboard'" class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm flex items-center justify-center">
                             <i class="fas fa-chart-line mr-2"></i>View Dashboard
                         </button>
@@ -637,8 +642,7 @@
                 const vibrationOffset = (Math.random() - 0.5) * 0.1;
                 if (machineGroup) {
                     machineGroup.position.x = vibrationOffset;
-                    machine```text
-machineGroup.position.z = vibrationOffset;
+                    machineGroup.position.z = vibrationOffset;
                 }
             }
         }
