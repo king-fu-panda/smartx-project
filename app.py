@@ -415,6 +415,185 @@ def predict_api():
 def nocode():
     return render_template("blockly.html")
 
+# Device Connection Routes
+@app.route("/api/device-connection/qr-setup", methods=["POST"])
+@login_required
+def qr_setup():
+    """Handle QR code device setup"""
+    try:
+        data = request.get_json()
+        qr_code = data.get("qr_code")
+        
+        if not qr_code:
+            return jsonify({"error": "QR code data required"}), 400
+        
+        # In a real implementation, you would decode the QR code
+        # and extract device configuration information
+        device_config = {
+            "device_id": f"qr_device_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            "setup_method": "qr_code",
+            "status": "connected",
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        # Store device configuration in MongoDB
+        mongo.db.connected_devices.insert_one(device_config)
+        
+        return jsonify({
+            "message": "Device connected successfully via QR code",
+            "device_id": device_config["device_id"],
+            "status": "connected"
+        }), 200
+        
+    except Exception as e:
+        app.logger.error(f"QR setup error: {str(e)}")
+        return jsonify({"error": "QR setup failed"}), 500
+
+@app.route("/api/device-connection/wifi-setup", methods=["POST"])
+@login_required
+def wifi_setup():
+    """Handle WiFi device setup"""
+    try:
+        data = request.get_json()
+        wifi_ssid = data.get("wifi_ssid")
+        wifi_password = data.get("wifi_password")
+        device_type = data.get("device_type", "generic")
+        
+        if not wifi_ssid:
+            return jsonify({"error": "WiFi SSID required"}), 400
+        
+        device_config = {
+            "device_id": f"wifi_device_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            "setup_method": "wifi",
+            "wifi_ssid": wifi_ssid,
+            "device_type": device_type,
+            "status": "connected",
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        # Store device configuration
+        mongo.db.connected_devices.insert_one(device_config)
+        
+        return jsonify({
+            "message": "Device connected successfully via WiFi",
+            "device_id": device_config["device_id"],
+            "wifi_ssid": wifi_ssid,
+            "status": "connected"
+        }), 200
+        
+    except Exception as e:
+        app.logger.error(f"WiFi setup error: {str(e)}")
+        return jsonify({"error": "WiFi setup failed"}), 500
+
+@app.route("/api/device-connection/mqtt-setup", methods=["POST"])
+@login_required
+def mqtt_setup():
+    """Handle MQTT device setup"""
+    try:
+        data = request.get_json()
+        mqtt_topic = data.get("mqtt_topic")
+        device_id = data.get("device_id")
+        
+        if not mqtt_topic or not device_id:
+            return jsonify({"error": "MQTT topic and device ID required"}), 400
+        
+        device_config = {
+            "device_id": device_id,
+            "setup_method": "mqtt",
+            "mqtt_topic": mqtt_topic,
+            "mqtt_broker": MQTT_BROKER,
+            "mqtt_port": MQTT_PORT,
+            "status": "connected",
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        # Store device configuration
+        mongo.db.connected_devices.insert_one(device_config)
+        
+        # Subscribe to the device's MQTT topic
+        if mqtt_client:
+            mqtt_client.subscribe(mqtt_topic)
+        
+        return jsonify({
+            "message": "Device connected successfully via MQTT",
+            "device_id": device_id,
+            "mqtt_topic": mqtt_topic,
+            "status": "connected"
+        }), 200
+        
+    except Exception as e:
+        app.logger.error(f"MQTT setup error: {str(e)}")
+        return jsonify({"error": "MQTT setup failed"}), 500
+
+@app.route("/api/device-connection/bulk-import", methods=["POST"])
+@login_required
+def bulk_import():
+    """Handle bulk device import via CSV"""
+    try:
+        if 'file' not in request.files:
+            return jsonify({"error": "No file provided"}), 400
+        
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"error": "No file selected"}), 400
+        
+        if not file.filename.endswith('.csv'):
+            return jsonify({"error": "Only CSV files are allowed"}), 400
+        
+        # Read CSV content
+        csv_content = file.read().decode('utf-8')
+        lines = csv_content.strip().split('\n')
+        
+        if len(lines) < 2:
+            return jsonify({"error": "CSV must contain header and at least one device"}), 400
+        
+        # Parse CSV (expecting: device_id, device_type, location, description)
+        header = lines[0].split(',')
+        devices_added = 0
+        
+        for line in lines[1:]:
+            if line.strip():
+                values = line.split(',')
+                if len(values) >= 2:
+                    device_config = {
+                        "device_id": values[0].strip(),
+                        "device_type": values[1].strip() if len(values) > 1 else "generic",
+                        "location": values[2].strip() if len(values) > 2 else "factory_floor",
+                        "description": values[3].strip() if len(values) > 3 else "Bulk imported device",
+                        "setup_method": "bulk_import",
+                        "status": "connected",
+                        "timestamp": datetime.now().isoformat()
+                    }
+                    
+                    # Store device configuration
+                    mongo.db.connected_devices.insert_one(device_config)
+                    devices_added += 1
+        
+        return jsonify({
+            "message": f"Successfully imported {devices_added} devices",
+            "devices_added": devices_added,
+            "status": "success"
+        }), 200
+        
+    except Exception as e:
+        app.logger.error(f"Bulk import error: {str(e)}")
+        return jsonify({"error": "Bulk import failed"}), 500
+
+@app.route("/api/connected-devices")
+@login_required
+def get_connected_devices():
+    """Get list of all connected devices"""
+    try:
+        devices = list(mongo.db.connected_devices.find({}, {"_id": 0}))
+        return jsonify({
+            "devices": devices,
+            "total_count": len(devices)
+        }), 200
+        
+    except Exception as e:
+        app.logger.error(f"Get devices error: {str(e)}")
+        return jsonify({"error": "Failed to retrieve devices"}), 500
+
 @app.route("/api/generate-code", methods=["POST"])
 @login_required
 def generate_code():

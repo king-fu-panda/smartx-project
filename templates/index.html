@@ -389,7 +389,7 @@
                         <div class="text-xs text-gray-400">Assembly, packaging, quality checks</div>
                     </div>
                     <div class="bg-slate-700/30 rounded-lg p-3">
-<div class="text-red-400 font-semibold text-sm">Safety Protocols</div>
+<div class="text-red-400 fontsemibold text-sm">Safety Protocols</div>
                         <div class="text-xs text-gray-400">Emergency stops, lockout procedures</div>
                     </div>
                     <div class="bg-slate-700/30 rounded-lg p-3">
@@ -406,6 +406,71 @@
                     Start Building
                     <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </a>
+            </div>
+        </div>
+
+        <!-- Connect Your Devices Section -->
+        <div class="text-center mt-16">
+            <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50">
+                <h2 class="text-3xl font-bold text-white mb-4">Connect Your Devices</h2>
+                <p class="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
+                    Choose your preferred method to connect your industrial IoT devices to the SmartX platform.
+                </p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+
+                    <!-- QR Code Pairing -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:transform hover:scale-105">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-qrcode text-4xl text-blue-400 mb-4"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">Scan & Connect</h3>
+                            <p class="text-gray-400 mb-4">Scan device QR code for instant setup</p>
+                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/25">
+                                <i class="fas fa-qrcode mr-2"></i>
+                                Scan QR Code
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- WiFi Setup -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-green-500/50 transition-all duration-300 hover:transform hover:scale-105">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-wifi text-4xl text-green-400 mb-4"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">WiFi Connection</h3>
+                            <p class="text-gray-400 mb-4">Connect IoT devices to your WiFi network</p>
+                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-green-500/25">
+                                <i class="fas fa-wifi mr-2"></i>
+                                Setup WiFi
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- MQTT Protocol -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300 hover:transform hover:scale-105">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-network-wired text-4xl text-purple-400 mb-4"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">MQTT Integration</h3>
+                            <p class="text-gray-400 mb-4">Industry-standard IoT communication protocol</p>
+                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-500/25">
+                                <i class="fas fa-network-wired mr-2"></i>
+                                Configure MQTT
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Import -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-orange-500/50 transition-all duration-300 hover:transform hover:scale-105">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-upload text-4xl text-orange-400 mb-4"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">Bulk Device Import</h3>
+                            <p class="text-gray-400 mb-4">Upload CSV to connect hundreds of devices</p>
+                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold rounded-lg hover:from-orange-700 hover:to-red-700 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-orange-500/25">
+                                <i class="fas fa-upload mr-2"></i>
+                                Import CSV
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
@@ -445,5 +510,8 @@
             </div>
         </div>
     </footer>
+    
+    
+</script>
 </body>
 </html>
