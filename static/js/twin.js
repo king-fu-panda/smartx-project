@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize Three.js scene
 function init3DScene() {
     const container = document.getElementById('twin-container');
-    
+
     // Scene setup
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0f172a);
-    
+
     // Camera setup
     camera = new THREE.PerspectiveCamera(
         75, 
@@ -35,7 +35,7 @@ function init3DScene() {
         1000
     );
     camera.position.set(5, 5, 5);
-    
+
     // Renderer setup
     renderer = new THREE.WebGLRenderer({ 
         canvas: document.getElementById('twin-canvas'),
@@ -44,13 +44,13 @@ function init3DScene() {
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    
+
     // Lighting setup
     setupLighting();
-    
+
     // Create machine model
     createMachine();
-    
+
     // Controls setup
     if (typeof THREE.OrbitControls !== 'undefined') {
         controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -59,7 +59,7 @@ function init3DScene() {
         controls.enableZoom = true;
         controls.enablePan = true;
     }
-    
+
     // Handle window resize
     window.addEventListener('resize', onWindowResize);
 }
@@ -69,7 +69,7 @@ function setupLighting() {
     // Ambient light
     const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
     scene.add(ambientLight);
-    
+
     // Main directional light
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(10, 10, 5);
@@ -77,12 +77,12 @@ function setupLighting() {
     directionalLight.shadow.mapSize.width = 2048;
     directionalLight.shadow.mapSize.height = 2048;
     scene.add(directionalLight);
-    
+
     // Additional point lights for better visualization
     const pointLight1 = new THREE.PointLight(0x3b82f6, 0.6);
     pointLight1.position.set(-5, 5, 5);
     scene.add(pointLight1);
-    
+
     const pointLight2 = new THREE.PointLight(0x10b981, 0.4);
     pointLight2.position.set(5, -3, -5);
     scene.add(pointLight2);
@@ -91,7 +91,7 @@ function setupLighting() {
 // Create machine 3D model
 function createMachine() {
     machineGroup = new THREE.Group();
-    
+
     // Main body (industrial machine base)
     const bodyGeometry = new THREE.BoxGeometry(2, 1, 2);
     const bodyMaterial = new THREE.MeshPhongMaterial({ 
@@ -103,7 +103,7 @@ function createMachine() {
     body.castShadow = true;
     body.receiveShadow = true;
     machineGroup.add(body);
-    
+
     // Control panel
     const panelGeometry = new THREE.BoxGeometry(0.3, 0.8, 1.5);
     const panelMaterial = new THREE.MeshPhongMaterial({ color: 0x1f2937 });
@@ -111,24 +111,26 @@ function createMachine() {
     panel.position.set(1.15, 0.9, 0);
     panel.castShadow = true;
     machineGroup.add(panel);
-    
+
     // Rotating component (represents moving parts)
     const rotorGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.8, 16);
     const rotorMaterial = new THREE.MeshPhongMaterial({ 
         color: 0xef4444,
         shininess: 80 
     });
+    // Store machine and scaler
     machine = new THREE.Mesh(rotorGeometry, rotorMaterial);
     machine.position.set(0, 1.4, 0);
     machine.castShadow = true;
+    machine.originalPosition = machine.position.clone(); // Store original position
     machineGroup.add(machine);
-    
+
     // Support pillars
     for (let i = 0; i < 4; i++) {
         const pillarGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5, 8);
         const pillarMaterial = new THREE.MeshPhongMaterial({ color: 0x6b7280 });
         const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
-        
+
         const angle = (i / 4) * Math.PI * 2;
         pillar.position.set(
             Math.cos(angle) * 0.8,
@@ -138,10 +140,10 @@ function createMachine() {
         pillar.castShadow = true;
         machineGroup.add(pillar);
     }
-    
+
     // Add sensor indicators
     createSensorIndicators();
-    
+
     // Ground plane
     const groundGeometry = new THREE.PlaneGeometry(10, 10);
     const groundMaterial = new THREE.MeshPhongMaterial({ 
@@ -152,7 +154,7 @@ function createMachine() {
     ground.rotation.x = -Math.PI / 2;
     ground.receiveShadow = true;
     scene.add(ground);
-    
+
     scene.add(machineGroup);
 }
 
@@ -168,7 +170,7 @@ function createSensorIndicators() {
     tempSensor.position.set(0.8, 1.2, 0.8);
     tempSensor.userData = { type: 'temperature' };
     machineGroup.add(tempSensor);
-    
+
     // Pressure sensor
     const pressureSensorGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     const pressureSensorMaterial = new THREE.MeshPhongMaterial({ 
@@ -179,7 +181,7 @@ function createSensorIndicators() {
     pressureSensor.position.set(-0.8, 1.2, 0.8);
     pressureSensor.userData = { type: 'pressure' };
     machineGroup.add(pressureSensor);
-    
+
     // Vibration sensor
     const vibrationSensorGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     const vibrationSensorMaterial = new THREE.MeshPhongMaterial({ 
@@ -196,60 +198,60 @@ function createSensorIndicators() {
 function setupEventListeners() {
     // Reset view button
     document.getElementById('resetView').addEventListener('click', resetView);
-    
+
     // Machine selection
     document.getElementById('machineSelect').addEventListener('change', function(e) {
         currentMachine = e.target.value;
         switchMachine(currentMachine);
     });
-    
+
     // View buttons
     document.getElementById('frontView').addEventListener('click', () => setView('front'));
     document.getElementById('topView').addEventListener('click', () => setView('top'));
     document.getElementById('sideView').addEventListener('click', () => setView('side'));
     document.getElementById('isoView').addEventListener('click', () => setView('iso'));
-    
+
     // Animation toggle
     document.getElementById('animationToggle').addEventListener('change', function(e) {
         animationRunning = e.target.checked;
     });
-    
+
     // Machine controls
     document.getElementById('speedControl').addEventListener('input', function(e) {
         machineSpeed = parseInt(e.target.value);
         document.getElementById('speedValue').textContent = machineSpeed + '%';
     });
-    
+
     document.getElementById('productionMode').addEventListener('change', function(e) {
         productionMode = e.target.value;
     });
-    
+
     document.getElementById('startMachine').addEventListener('click', startMachine);
     document.getElementById('stopMachine').addEventListener('click', stopMachine);
-    
+
     // Simulation controls
     document.getElementById('runSimulation').addEventListener('click', runSimulation);
     document.getElementById('testScenario').addEventListener('click', testFailureScenario);
     document.getElementById('optimizeLayout').addEventListener('click', optimizeLayout);
-    
+
     // Environment controls
     document.getElementById('lightingControl').addEventListener('input', function(e) {
         lightingLevel = parseInt(e.target.value);
         updateLighting();
     });
-    
+
     document.getElementById('gridToggle').addEventListener('change', function(e) {
         showGrid = e.target.checked;
         toggleGrid();
     });
-    
+
     document.getElementById('shadowToggle').addEventListener('change', function(e) {
         showShadows = e.target.checked;
         toggleShadows();
     });
-    
+
     document.getElementById('fullscreenMode').addEventListener('click', toggleFullscreen);
-    
+
     // Export and share
     document.getElementById('exportModel').addEventListener('click', exportModel);
     document.getElementById('shareView').addEventListener('click', shareView);
@@ -266,14 +268,14 @@ async function updateSensorData() {
     try {
         const response = await fetch('/api/twin-data');
         if (!response.ok) throw new Error('Failed to fetch twin data');
-        
+
         const data = await response.json();
         sensorData = data;
-        
+
         updateSensorDisplay(data);
         updateSensorVisualization(data);
         updateAlerts(data);
-        
+
     } catch (error) {
         console.error('Error updating twin data:', error);
     }
@@ -285,7 +287,7 @@ function updateSensorDisplay(data) {
     document.getElementById('twinPressure').textContent = `${data.pressure} bar`;
     document.getElementById('twinRpm').textContent = `${data.rpm} rpm`;
     document.getElementById('twinPower').textContent = `${data.power} kW`;
-    
+
     // Update status
     const statusElement = document.getElementById('twinStatus');
     statusElement.textContent = data.status;
@@ -295,23 +297,23 @@ function updateSensorDisplay(data) {
 // Update 3D visualization based on sensor data
 function updateSensorVisualization(data) {
     if (!machineGroup) return;
-    
+
     // Update sensor indicator colors based on values
     machineGroup.children.forEach(child => {
         if (child.userData && child.userData.type) {
             const material = child.material;
-            
+
             switch (child.userData.type) {
                 case 'temperature':
                     const tempIntensity = Math.min(data.temperature / 100, 1);
                     material.emissive.setRGB(tempIntensity * 0.3, 0, 0);
                     break;
-                    
+
                 case 'pressure':
                     const pressureIntensity = Math.min(data.pressure / 2.5, 1);
                     material.emissive.setRGB(0, 0, pressureIntensity * 0.3);
                     break;
-                    
+
                 case 'vibration':
                     // Simulate vibration with slight random movement
                     if (data.rpm > 2000) {
@@ -323,7 +325,7 @@ function updateSensorVisualization(data) {
             }
         }
     });
-    
+
     // Update machine color based on status
     if (machine) {
         switch (data.status) {
@@ -345,7 +347,7 @@ function updateSensorVisualization(data) {
 // Update alerts display
 function updateAlerts(data) {
     const alertsContainer = document.getElementById('twinAlerts');
-    
+
     if (data.alerts && data.alerts.length > 0) {
         alertsContainer.innerHTML = data.alerts.map(alert => `
             <div class="alert-high p-2 rounded text-sm">
@@ -366,22 +368,22 @@ function updateAlerts(data) {
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
-    
+
     if (animationRunning && machine && machineGroup) {
         const rpm = sensorData.rpm || 1500;
         const speedMultiplier = (machineSpeed / 100) * 0.05;
-        
+
         switch (currentMachine) {
             case 'robot':
                 // Rotate the main rotor
                 machine.rotation.y += speedMultiplier * 2;
                 break;
-                
+
             case 'cnc':
                 // Spin the CNC spindle
                 machine.rotation.y += speedMultiplier * 5;
                 break;
-                
+
             case 'conveyor':
                 // Move packages along conveyor
                 machineGroup.children.forEach(child => {
@@ -393,7 +395,7 @@ function animate() {
                     }
                 });
                 break;
-                
+
             case 'assembly':
                 // Rotate assembly arms
                 machineGroup.children.forEach(child => {
@@ -403,14 +405,14 @@ function animate() {
                 });
                 machine.rotation.y += speedMultiplier;
                 break;
-                
+
             case 'press':
                 // Hydraulic press up/down motion
                 const time = Date.now() * 0.001;
                 machine.position.y = 1.8 + Math.sin(time * speedMultiplier * 2) * 0.3;
                 break;
         }
-        
+
         // Add vibration effects for high speeds
         if (machineSpeed > 80) {
             const vibration = (Math.random() - 0.5) * 0.01;
@@ -420,11 +422,11 @@ function animate() {
             }
         }
     }
-    
+
     if (controls) {
         controls.update();
     }
-    
+
     renderer.render(scene, camera);
 }
 
@@ -452,7 +454,7 @@ function switchMachine(machineType) {
     if (machineGroup) {
         scene.remove(machineGroup);
     }
-    
+
     // Create new machine based on type
     switch (machineType) {
         case 'cnc':
@@ -478,7 +480,7 @@ function switchMachine(machineType) {
 // Create CNC Machine
 function createCNCMachine() {
     machineGroup = new THREE.Group();
-    
+
     // CNC Base
     const baseGeometry = new THREE.BoxGeometry(3, 0.5, 2);
     const baseMaterial = new THREE.MeshPhongMaterial({ color: 0x2563eb });
@@ -486,7 +488,7 @@ function createCNCMachine() {
     base.position.y = 0.25;
     base.castShadow = true;
     machineGroup.add(base);
-    
+
     // Spindle housing
     const housingGeometry = new THREE.BoxGeometry(0.8, 1.5, 0.8);
     const housingMaterial = new THREE.MeshPhongMaterial({ color: 0x1e293b });
@@ -494,7 +496,7 @@ function createCNCMachine() {
     housing.position.set(0, 1.25, 0);
     housing.castShadow = true;
     machineGroup.add(housing);
-    
+
     // Spindle (rotating part)
     const spindleGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1, 16);
     const spindleMaterial = new THREE.MeshPhongMaterial({ color: 0xef4444 });
@@ -502,7 +504,7 @@ function createCNCMachine() {
     machine.position.set(0, 0.75, 0);
     machine.castShadow = true;
     machineGroup.add(machine);
-    
+
     // Work table
     const tableGeometry = new THREE.BoxGeometry(2, 0.2, 1.5);
     const tableMaterial = new THREE.MeshPhongMaterial({ color: 0x475569 });
@@ -510,7 +512,7 @@ function createCNCMachine() {
     table.position.y = 0.6;
     table.castShadow = true;
     machineGroup.add(table);
-    
+
     createSensorIndicators();
     scene.add(machineGroup);
 }
@@ -518,7 +520,7 @@ function createCNCMachine() {
 // Create Conveyor System
 function createConveyorSystem() {
     machineGroup = new THREE.Group();
-    
+
     // Conveyor belt
     const beltGeometry = new THREE.BoxGeometry(6, 0.2, 1);
     const beltMaterial = new THREE.MeshPhongMaterial({ color: 0x374151 });
@@ -526,7 +528,7 @@ function createConveyorSystem() {
     belt.position.y = 0.6;
     belt.castShadow = true;
     machineGroup.add(belt);
-    
+
     // Rollers
     for (let i = 0; i < 7; i++) {
         const rollerGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1.2, 16);
@@ -537,7 +539,7 @@ function createConveyorSystem() {
         roller.castShadow = true;
         machineGroup.add(roller);
     }
-    
+
     // Drive motor
     const motorGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
     const motorMaterial = new THREE.MeshPhongMaterial({ color: 0x10b981 });
@@ -545,7 +547,7 @@ function createConveyorSystem() {
     machine.position.set(3, 0.4, 0);
     machine.castShadow = true;
     machineGroup.add(machine);
-    
+
     // Moving packages
     for (let i = 0; i < 3; i++) {
         const packageGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
@@ -556,7 +558,7 @@ function createConveyorSystem() {
         package.userData = { type: 'package', index: i };
         machineGroup.add(package);
     }
-    
+
     createSensorIndicators();
     scene.add(machineGroup);
 }
@@ -564,7 +566,7 @@ function createConveyorSystem() {
 // Create Assembly Station
 function createAssemblyStation() {
     machineGroup = new THREE.Group();
-    
+
     // Main platform
     const platformGeometry = new THREE.BoxGeometry(2.5, 0.3, 2.5);
     const platformMaterial = new THREE.MeshPhongMaterial({ color: 0x2563eb });
@@ -572,26 +574,26 @@ function createAssemblyStation() {
     platform.position.y = 0.15;
     platform.castShadow = true;
     machineGroup.add(platform);
-    
+
     // Assembly arms
     for (let i = 0; i < 4; i++) {
         const angle = (i / 4) * Math.PI * 2;
         const armGroup = new THREE.Group();
-        
+
         const baseGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 8);
         const baseMaterial = new THREE.MeshPhongMaterial({ color: 0x1e293b });
         const armBase = new THREE.Mesh(baseGeometry, baseMaterial);
         armBase.position.y = 0.55;
         armBase.castShadow = true;
         armGroup.add(armBase);
-        
+
         const armGeometry = new THREE.BoxGeometry(0.8, 0.1, 0.1);
         const armMaterial = new THREE.MeshPhongMaterial({ color: 0x6366f1 });
         const arm = new THREE.Mesh(armGeometry, armMaterial);
         arm.position.set(0.4, 0.8, 0);
         arm.castShadow = true;
         armGroup.add(arm);
-        
+
         armGroup.position.set(
             Math.cos(angle) * 0.8,
             0,
@@ -600,7 +602,7 @@ function createAssemblyStation() {
         armGroup.userData = { type: 'arm', index: i };
         machineGroup.add(armGroup);
     }
-    
+
     // Central assembly point
     const centerGeometry = new THREE.CylinderGeometry(0.2, 0.2, 0.3, 16);
     const centerMaterial = new THREE.MeshPhongMaterial({ color: 0xef4444 });
@@ -608,7 +610,7 @@ function createAssemblyStation() {
     machine.position.y = 0.45;
     machine.castShadow = true;
     machineGroup.add(machine);
-    
+
     createSensorIndicators();
     scene.add(machineGroup);
 }
@@ -616,7 +618,7 @@ function createAssemblyStation() {
 // Create Hydraulic Press
 function createHydraulicPress() {
     machineGroup = new THREE.Group();
-    
+
     // Frame
     const frameGeometry = new THREE.BoxGeometry(2, 3, 1.5);
     const frameMaterial = new THREE.MeshPhongMaterial({ color: 0x1e293b });
@@ -624,7 +626,7 @@ function createHydraulicPress() {
     frame.position.y = 1.5;
     frame.castShadow = true;
     machineGroup.add(frame);
-    
+
     // Hydraulic cylinder
     const cylinderGeometry = new THREE.CylinderGeometry(0.2, 0.2, 1.5, 16);
     const cylinderMaterial = new THREE.MeshPhongMaterial({ color: 0x6b7280 });
@@ -632,7 +634,7 @@ function createHydraulicPress() {
     cylinder.position.set(0, 2.5, 0);
     cylinder.castShadow = true;
     machineGroup.add(cylinder);
-    
+
     // Press head (moving part)
     const headGeometry = new THREE.BoxGeometry(1.5, 0.3, 1.2);
     const headMaterial = new THREE.MeshPhongMaterial({ color: 0xef4444 });
@@ -640,7 +642,7 @@ function createHydraulicPress() {
     machine.position.set(0, 1.8, 0);
     machine.castShadow = true;
     machineGroup.add(machine);
-    
+
     // Base plate
     const baseGeometry = new THREE.BoxGeometry(1.8, 0.2, 1.4);
     const baseMaterial = new THREE.MeshPhongMaterial({ color: 0x475569 });
@@ -648,7 +650,7 @@ function createHydraulicPress() {
     base.position.y = 0.6;
     base.castShadow = true;
     machineGroup.add(base);
-    
+
     createSensorIndicators();
     scene.add(machineGroup);
 }
@@ -695,7 +697,7 @@ function optimizeLayout() {
     const originalPosition = camera.position.clone();
     camera.position.set(0, 15, 0);
     camera.lookAt(0, 0, 0);
-    
+
     setTimeout(() => {
         camera.position.copy(originalPosition);
     }, 2000);
@@ -747,7 +749,7 @@ function shareView() {
         },
         timestamp: new Date().toISOString()
     };
-    
+
     navigator.clipboard.writeText(JSON.stringify(shareData)).then(() => {
         alert('View configuration copied to clipboard!');
     });
@@ -773,7 +775,7 @@ function setView(viewType) {
             camera.lookAt(0, 1, 0);
             break;
     }
-    
+
     if (controls) {
         controls.update();
     }

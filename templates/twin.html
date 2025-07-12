@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +71,7 @@
                     <div class="p-4 border-b border-slate-700">
                         <div class="flex items-center justify-between flex-wrap gap-4">
                             <h2 class="text-lg font-semibold">Enhanced Machine Visualization</h2>
-                            
+
                             <!-- Machine Selection -->
                             <div class="flex items-center space-x-2">
                                 <span class="text-sm text-gray-400">Machine:</span>
@@ -86,7 +85,7 @@
                                     <option value="reactor">Chemical Reactor</option>
                                 </select>
                             </div>
-                            
+
                             <!-- View Controls -->
                             <div class="flex items-center space-x-2">
                                 <span class="text-sm text-gray-400">View:</span>
@@ -95,7 +94,7 @@
                                 <button id="sideView" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded text-sm">Side</button>
                                 <button id="isoView" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded text-sm">Iso</button>
                             </div>
-                            
+
                             <!-- Rendering Options -->
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center space-x-2">
@@ -112,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Advanced Controls Row -->
                         <div class="flex items-center justify-between mt-3 flex-wrap gap-4">
                             <!-- Material Selection -->
@@ -126,7 +125,7 @@
                                     <option value="ceramic">Ceramic</option>
                                 </select>
                             </div>
-                            
+
                             <!-- Post-Processing -->
                             <div class="flex items-center space-x-2">
                                 <span class="text-sm text-gray-400">Effects:</span>
@@ -138,7 +137,7 @@
                                     <option value="all">All Effects</option>
                                 </select>
                             </div>
-                            
+
                             <!-- Quality Settings -->
                             <div class="flex items-center space-x-2">
                                 <span class="text-sm text-gray-400">Quality:</span>
@@ -151,10 +150,10 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div id="twin-container">
                         <canvas id="twin-canvas"></canvas>
-                        
+
                         <!-- 3D UI Overlay -->
                         <div class="absolute top-4 right-4 control-panel rounded-lg p-3">
                             <div class="text-xs text-gray-400 mb-2">3D Controls</div>
@@ -165,7 +164,7 @@
                                 <div><i class="fas fa-keyboard mr-2"></i>WASD: Move</div>
                             </div>
                         </div>
-                        
+
                         <!-- Performance Monitor -->
                         <div class="absolute bottom-4 left-4 control-panel rounded-lg p-3">
                             <div class="text-xs text-gray-400 mb-1">Performance</div>
@@ -197,7 +196,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="w-3 h-3 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
@@ -210,7 +209,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="w-3 h-3 bg-yellow-400 rounded-full mr-2 animate-pulse"></div>
@@ -223,7 +222,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="w-3 h-3 bg-green-400 rounded-full mr-2 animate-pulse"></div>
@@ -236,7 +235,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="w-3 h-3 bg-purple-400 rounded-full mr-2 animate-pulse"></div>
@@ -263,7 +262,7 @@
                                 <span id="lightingValue" class="text-white text-sm w-8">80%</span>
                             </div>
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <span class="text-gray-400 text-sm">Shadow Quality</span>
                             <select id="shadowQuality" class="px-2 py-1 bg-slate-700 rounded text-sm border border-slate-600">
@@ -273,22 +272,22 @@
                                 <option value="ultra">Ultra</option>
                             </select>
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <span class="text-gray-400 text-sm">Reflection Quality</span>
                             <input type="range" id="reflectionQuality" min="0" max="100" value="70" class="slider w-20">
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <span class="text-gray-400 text-sm">Anti-Aliasing</span>
                             <input type="checkbox" id="antiAliasing" checked class="form-checkbox text-blue-400">
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <span class="text-gray-400 text-sm">HDR</span>
                             <input type="checkbox" id="hdrToggle" checked class="form-checkbox text-blue-400">
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <span class="text-gray-400 text-sm">Ambient Occlusion</span>
                             <input type="checkbox" id="aoToggle" class="form-checkbox text-blue-400">
@@ -307,12 +306,12 @@
                                 <span id="fovValue" class="text-white text-sm w-8">75°</span>
                             </div>
                         </div>
-                        
+
                         <div class="flex items-center justify-between">
                             <span class="text-gray-400 text-sm">Speed</span>
                             <input type="range" id="cameraSpeed" min="1" max="10" value="5" class="slider w-20">
                         </div>
-                        
+
                         <div class="grid grid-cols-2 gap-2">
                             <button id="orbitMode" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-xs">
                                 <i class="fas fa-sync mr-1"></i>Orbit
@@ -373,32 +372,32 @@
         let machineGroup, currentMachine = 'robot';
         let animationRunning = true;
         let particleSystem, postProcessPipeline;
-        
+
         // Initialize Babylon.js scene
         function initBabylonScene() {
             const canvas = document.getElementById('twin-canvas');
             engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
-            
+
             scene = new BABYLON.Scene(engine);
             scene.clearColor = new BABYLON.Color3(0.05, 0.09, 0.16);
-            
+
             // Enhanced camera
             camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 3, 10, BABYLON.Vector3.Zero(), scene);
             camera.attachControls(canvas, true);
             camera.setTarget(BABYLON.Vector3.Zero());
-            
+
             // Enhanced lighting
             setupEnhancedLighting();
-            
+
             // Create machine
             createEnhancedMachine();
-            
+
             // Setup post-processing
             setupPostProcessing();
-            
+
             // Setup particles
             setupParticleSystem();
-            
+
             // Start render loop
             engine.runRenderLoop(() => {
                 updatePerformanceDisplay();
@@ -407,43 +406,43 @@
                 }
                 scene.render();
             });
-            
+
             // Handle resize
             window.addEventListener("resize", () => {
                 engine.resize();
             });
         }
-        
+
         function setupEnhancedLighting() {
             // HDR environment
             const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("/static/textures/environment.dds", scene);
             scene.environmentTexture = hdrTexture;
             scene.environmentIntensity = 0.8;
-            
+
             // Main directional light
             const directionalLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -1, -1), scene);
             directionalLight.intensity = 1.2;
             directionalLight.shadowMinZ = 1;
             directionalLight.shadowMaxZ = 2500;
-            
+
             // Shadow generator
             const shadowGenerator = new BABYLON.ShadowGenerator(2048, directionalLight);
             shadowGenerator.useBlurExponentialShadowMap = true;
             shadowGenerator.blurBoxOffset = 2.0;
-            
+
             // Point lights for atmosphere
             const pointLight1 = new BABYLON.PointLight("pointLight1", new BABYLON.Vector3(10, 10, 0), scene);
             pointLight1.diffuse = new BABYLON.Color3(0.2, 0.4, 1);
             pointLight1.intensity = 0.6;
-            
+
             const pointLight2 = new BABYLON.PointLight("pointLight2", new BABYLON.Vector3(-10, 5, 10), scene);
             pointLight2.diffuse = new BABYLON.Color3(1, 0.4, 0.2);
             pointLight2.intensity = 0.4;
         }
-        
+
         function createEnhancedMachine() {
             machineGroup = new BABYLON.TransformNode("machineGroup", scene);
-            
+
             // Create different machine types
             switch(currentMachine) {
                 case 'robot':
@@ -458,37 +457,37 @@
                 default:
                     createRoboticArm();
             }
-            
+
             // Add ground
             createEnhancedGround();
         }
-        
+
         function createRoboticArm() {
             // Base
             const base = BABYLON.MeshBuilder.CreateCylinder("base", {height: 1, diameter: 2}, scene);
             base.position.y = 0.5;
             base.parent = machineGroup;
-            
+
             // Enhanced material
             const baseMaterial = new BABYLON.PBRMaterial("baseMaterial", scene);
             baseMaterial.baseColor = new BABYLON.Color3(0.2, 0.3, 0.8);
             baseMaterial.metallicFactor = 0.8;
             baseMaterial.roughnessFactor = 0.2;
             base.material = baseMaterial;
-            
+
             // Arm segments
             for (let i = 0; i < 3; i++) {
                 const segment = BABYLON.MeshBuilder.CreateBox("segment" + i, {width: 0.3, height: 1.5, depth: 0.3}, scene);
                 segment.position.y = 1.5 + (i * 1.5);
                 segment.parent = machineGroup;
-                
+
                 const segmentMaterial = new BABYLON.PBRMaterial("segmentMaterial" + i, scene);
                 segmentMaterial.baseColor = new BABYLON.Color3(0.6, 0.6, 0.6);
                 segmentMaterial.metallicFactor = 0.9;
                 segmentMaterial.roughnessFactor = 0.1;
                 segment.material = segmentMaterial;
             }
-            
+
             // Add glow effect
             const glowLayer = new BABYLON.GlowLayer("glow", scene);
             glowLayer.customEmissiveColorSelector = function(mesh, subMesh, material, result) {
@@ -499,30 +498,30 @@
                 }
             };
         }
-        
+
         function createWindTurbine() {
             // Tower
             const tower = BABYLON.MeshBuilder.CreateCylinder("tower", {height: 8, diameterTop: 0.8, diameterBottom: 1.2}, scene);
             tower.position.y = 4;
             tower.parent = machineGroup;
-            
+
             const towerMaterial = new BABYLON.PBRMaterial("towerMaterial", scene);
             towerMaterial.baseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
             towerMaterial.metallicFactor = 0.1;
             towerMaterial.roughnessFactor = 0.8;
             tower.material = towerMaterial;
-            
+
             // Nacelle
             const nacelle = BABYLON.MeshBuilder.CreateBox("nacelle", {width: 3, height: 1, depth: 1}, scene);
             nacelle.position.y = 8;
             nacelle.parent = machineGroup;
             nacelle.material = towerMaterial;
-            
+
             // Hub
             const hub = BABYLON.MeshBuilder.CreateSphere("hub", {diameter: 0.8}, scene);
             hub.position = new BABYLON.Vector3(1.5, 8, 0);
             hub.parent = machineGroup;
-            
+
             // Blades
             for (let i = 0; i < 3; i++) {
                 const blade = BABYLON.MeshBuilder.CreateBox("blade" + i, {width: 0.1, height: 4, depth: 0.5}, scene);
@@ -530,7 +529,7 @@
                 blade.rotation.z = (i * Math.PI * 2 / 3);
                 blade.position.y += 2;
                 blade.parent = machineGroup;
-                
+
                 const bladeMaterial = new BABYLON.PBRMaterial("bladeMaterial", scene);
                 bladeMaterial.baseColor = new BABYLON.Color3(0.8, 0.8, 0.9);
                 bladeMaterial.metallicFactor = 0.3;
@@ -538,76 +537,76 @@
                 blade.material = bladeMaterial;
             }
         }
-        
+
         function createEnhancedGround() {
             const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 20, height: 20}, scene);
-            
+
             const groundMaterial = new BABYLON.PBRMaterial("groundMaterial", scene);
             groundMaterial.baseColor = new BABYLON.Color3(0.1, 0.15, 0.2);
             groundMaterial.metallicFactor = 0.1;
             groundMaterial.roughnessFactor = 0.9;
-            
+
             // Add normal map for surface detail
             groundMaterial.bumpTexture = new BABYLON.Texture("/static/textures/normal.jpg", scene);
             ground.material = groundMaterial;
             ground.receiveShadows = true;
         }
-        
+
         function setupPostProcessing() {
             // SSAO
             const ssaoRatio = 0.5;
             const ssaoRenderPipeline = new BABYLON.SSAORenderingPipeline("ssaoPipeline", scene, ssaoRatio);
             scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline("ssaoPipeline", camera);
-            
+
             // Bloom
             const defaultPipeline = new BABYLON.DefaultRenderingPipeline("defaultPipeline", true, scene, [camera]);
             defaultPipeline.bloomEnabled = true;
             defaultPipeline.bloomThreshold = 0.9;
             defaultPipeline.bloomWeight = 0.3;
             defaultPipeline.bloomKernel = 64;
-            
+
             // Tone mapping
             defaultPipeline.toneMappingEnabled = true;
             defaultPipeline.toneMappingType = BABYLON.TonemappingOperator.Photographic;
-            
+
             postProcessPipeline = defaultPipeline;
         }
-        
+
         function setupParticleSystem() {
             // Sparks particle system
             particleSystem = new BABYLON.ParticleSystem("sparks", 2000, scene);
             particleSystem.particleTexture = new BABYLON.Texture("/static/textures/spark.png", scene);
-            
+
             particleSystem.emitter = machineGroup;
             particleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, -1);
             particleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, 1);
-            
+
             particleSystem.color1 = new BABYLON.Color4(1, 0.5, 0, 1.0);
             particleSystem.color2 = new BABYLON.Color4(1, 1, 0, 1.0);
             particleSystem.colorDead = new BABYLON.Color4(0, 0, 0, 0.0);
-            
+
             particleSystem.minSize = 0.1;
             particleSystem.maxSize = 0.5;
-            
+
             particleSystem.minLifeTime = 0.3;
             particleSystem.maxLifeTime = 1.5;
-            
+
             particleSystem.emitRate = 150;
-            
+
             particleSystem.direction1 = new BABYLON.Vector3(-2, 8, 2);
             particleSystem.direction2 = new BABYLON.Vector3(2, 8, -2);
-            
+
             particleSystem.minEmitPower = 1;
             particleSystem.maxEmitPower = 3;
             particleSystem.updateSpeed = 0.005;
-            
+
             particleSystem.start();
         }
-        
+
         function animateMachine() {
             if (machineGroup) {
                 const time = performance.now() * 0.001;
-                
+
                 if (currentMachine === 'turbine') {
                     // Rotate turbine blades
                     const blades = scene.meshes.filter(mesh => mesh.name.includes("blade"));
@@ -618,12 +617,12 @@
                     // General machine animation
                     machineGroup.rotation.y += 0.01;
                 }
-                
+
                 // Update sensor-based effects
                 updateSensorEffects();
             }
         }
-        
+
         function updateSensorEffects() {
             if (sensorData.temperature > 85) {
                 // Add heat distortion effect
@@ -632,37 +631,38 @@
                     heatMaterial.emissiveColor = new BABYLON.Color3(1, 0.3, 0);
                 }
             }
-            
+
             if (sensorData.vibration > 0.8) {
                 // Add vibration effect
                 const vibrationOffset = (Math.random() - 0.5) * 0.1;
                 if (machineGroup) {
                     machineGroup.position.x = vibrationOffset;
-                    machineGroup.position.z = vibrationOffset;
+                    machine```text
+machineGroup.position.z = vibrationOffset;
                 }
             }
         }
-        
+
         function updatePerformanceDisplay() {
             document.getElementById('fpsDisplay').textContent = Math.round(engine.getFps());
             document.getElementById('drawCallsDisplay').textContent = scene.getActiveMeshes().length;
             document.getElementById('trianglesDisplay').textContent = scene.getTotalVertices();
         }
-        
+
         // Event listeners and API calls
         document.addEventListener('DOMContentLoaded', function() {
             initBabylonScene();
             setupEventListeners();
             startDataUpdates();
         });
-        
+
         function setupEventListeners() {
             // Machine selection
             document.getElementById('machineSelect').addEventListener('change', function(e) {
                 currentMachine = e.target.value;
                 switchMachine(currentMachine);
             });
-            
+
             // Graphics controls
             document.getElementById('lightingControl').addEventListener('input', function(e) {
                 const intensity = e.target.value / 100;
@@ -673,28 +673,28 @@
                 });
                 document.getElementById('lightingValue').textContent = e.target.value + '%';
             });
-            
+
             document.getElementById('fovControl').addEventListener('input', function(e) {
                 camera.fov = (e.target.value * Math.PI) / 180;
                 document.getElementById('fovValue').textContent = e.target.value + '°';
             });
-            
+
             // Material changes
             document.getElementById('materialSelect').addEventListener('change', function(e) {
                 changeMaterial(e.target.value);
             });
-            
+
             // Post-processing
             document.getElementById('postProcessSelect').addEventListener('change', function(e) {
                 updatePostProcessing(e.target.value);
             });
-            
+
             // Screenshot
             document.getElementById('captureScreenshot').addEventListener('click', function() {
                 BABYLON.ScreenshotTools.CreateScreenshotUsingRenderTarget(engine, camera, 1920);
             });
         }
-        
+
         function switchMachine(machineType) {
             if (machineGroup) {
                 machineGroup.dispose();
@@ -702,12 +702,12 @@
             currentMachine = machineType;
             createEnhancedMachine();
         }
-        
+
         function changeMaterial(materialType) {
             scene.meshes.forEach(mesh => {
                 if (mesh.material && mesh.name !== 'ground') {
                     const material = new BABYLON.PBRMaterial(materialType + "Material", scene);
-                    
+
                     switch(materialType) {
                         case 'metallic':
                             material.baseColor = new BABYLON.Color3(0.7, 0.7, 0.8);
@@ -730,12 +730,12 @@
                             material.metallicFactor = 0.5;
                             material.roughnessFactor = 0.5;
                     }
-                    
+
                     mesh.material = material;
                 }
             });
         }
-        
+
         function updatePostProcessing(effectType) {
             if (postProcessPipeline) {
                 switch(effectType) {
@@ -756,47 +756,47 @@
                 }
             }
         }
-        
+
         // Data updates
         function startDataUpdates() {
             updateSensorData();
             setInterval(updateSensorData, 3000);
         }
-        
+
         async function updateSensorData() {
             try {
                 const response = await fetch('/api/twin-data');
                 const data = await response.json();
                 sensorData = data;
-                
+
                 updateSensorDisplay(data);
                 updateSensorVisualization(data);
-                
+
             } catch (error) {
                 console.error('Error updating twin data:', error);
             }
         }
-        
+
         function updateSensorDisplay(data) {
             document.getElementById('twinTemp').textContent = `${data.temperature}°F`;
             document.getElementById('twinPressure').textContent = `${data.pressure} bar`;
             document.getElementById('twinVibration').textContent = `${data.vibration}`;
             document.getElementById('twinRpm').textContent = `${data.rpm} rpm`;
             document.getElementById('twinPower').textContent = `${data.power} kW`;
-            
+
             // Update progress bars
             document.getElementById('tempBar').style.width = `${Math.min(100, (data.temperature / 100) * 100)}%`;
             document.getElementById('pressureBar').style.width = `${Math.min(100, (data.pressure / 3) * 100)}%`;
             document.getElementById('vibrationBar').style.width = `${Math.min(100, (data.vibration / 1.5) * 100)}%`;
             document.getElementById('rpmBar').style.width = `${Math.min(100, (data.rpm / 3000) * 100)}%`;
             document.getElementById('powerBar').style.width = `${Math.min(100, (data.power / 200) * 100)}%`;
-            
+
             // Update status
             const statusElement = document.getElementById('twinStatus');
             statusElement.textContent = data.status;
             statusElement.className = `px-2 py-1 rounded-full text-xs font-semibold status-${data.status.toLowerCase()}`;
         }
-        
+
         function updateSensorVisualization(data) {
             // This function would update 3D visual effects based on sensor data
             updateSensorEffects();

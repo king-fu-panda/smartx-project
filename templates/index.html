@@ -419,7 +419,7 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
 
                     <!-- QR Code Pairing -->
-                    <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:transform hover:scale-105">
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:transform hover:scale-105 group cursor-pointer" onclick="openQRModal()">
                         <div class="flex flex-col items-center">
                             <i class="fas fa-qrcode text-4xl text-blue-400 mb-4"></i>
                             <h3 class="text-xl font-bold text-white mb-2">Scan & Connect</h3>
@@ -431,44 +431,47 @@
                         </div>
                     </div>
 
-                    <!-- WiFi Setup -->
-                    <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-green-500/50 transition-all duration-300 hover:transform hover:scale-105">
-                        <div class="flex flex-col items-center">
-                            <i class="fas fa-wifi text-4xl text-green-400 mb-4"></i>
-                            <h3 class="text-xl font-bold text-white mb-2">WiFi Connection</h3>
-                            <p class="text-gray-400 mb-4">Connect IoT devices to your WiFi network</p>
-                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-green-500/25">
-                                <i class="fas fa-wifi mr-2"></i>
-                                Setup WiFi
-                            </button>
+                <!-- WiFi Setup -->
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-green-500/50 transition-all duration-300 hover:transform hover:scale-105 group cursor-pointer" onclick="openWiFiModal()">
+                    <div class="text-center">
+                        <div class="text-4xl text-green-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-wifi"></i>
                         </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">WiFi Connection</h3>
+                        <p class="text-gray-400 text-sm mb-4">Connect IoT devices to your WiFi network</p>
+                        <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium">
+                            Setup WiFi
+                        </button>
                     </div>
+                </div>
 
-                    <!-- MQTT Protocol -->
-                    <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300 hover:transform hover:scale-105">
-                        <div class="flex flex-col items-center">
-                            <i class="fas fa-network-wired text-4xl text-purple-400 mb-4"></i>
-                            <h3 class="text-xl font-bold text-white mb-2">MQTT Integration</h3>
-                            <p class="text-gray-400 mb-4">Industry-standard IoT communication protocol</p>
-                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-500/25">
-                                <i class="fas fa-network-wired mr-2"></i>
-                                Configure MQTT
-                            </button>
+                <!-- MQTT Protocol -->
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300 hover:transform hover:scale-105 group cursor-pointer" onclick="openMQTTModal()">
+                    <div class="text-center">
+                        <div class="text-4xl text-purple-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-network-wired"></i>
                         </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">MQTT Integration</h3>
+                        <p class="text-gray-400 text-sm mb-4">Industry-standard IoT communication protocol</p>
+                        <button class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                            Configure MQTT
+                        </button>
                     </div>
+                </div>
 
-                    <!-- Bulk Import -->
-                    <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-orange-500/50 transition-all duration-300 hover:transform hover:scale-105">
-                        <div class="flex flex-col items-center">
-                            <i class="fas fa-upload text-4xl text-orange-400 mb-4"></i>
-                            <h3 class="text-xl font-bold text-white mb-2">Bulk Device Import</h3>
-                            <p class="text-gray-400 mb-4">Upload CSV to connect hundreds of devices</p>
-                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold rounded-lg hover:from-orange-700 hover:to-red-700 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-orange-500/25">
-                                <i class="fas fa-upload mr-2"></i>
-                                Import CSV
-                            </button>
+                <!-- Bulk Import -->
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-orange-500/50 transition-all duration-300 hover:transform hover:scale-105 group cursor-pointer" onclick="openCSVModal()">
+                    <div class="text-center">
+                        <div class="text-4xl text-orange-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-upload"></i>
                         </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Bulk Device Import</h3>
+                        <p class="text-gray-400 text-sm mb-4">Upload CSV to connect hundreds of devices</p>
+                        <button class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm font-medium">
+                            Import CSV
+                        </button>
                     </div>
+                </div>
 
                 </div>
             </div>
@@ -510,8 +513,276 @@
             </div>
         </div>
     </footer>
-    
-    
+
+
 </script>
+
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-slate-800 p-6 rounded-lg max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white">QR Code Device Setup</h3>
+                <button onclick="closeQRModal()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="text-center">
+                <video id="qrVideo" class="w-full h-64 bg-gray-700 rounded mb-4" autoplay></video>
+                <p class="text-gray-300 mb-4">Position device QR code in front of camera</p>
+                <button id="startCamera" onclick="startQRCamera()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-2">
+                    Start Camera
+                </button>
+                <button onclick="closeQRModal()" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WiFi Modal -->
+    <div id="wifiModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-slate-800 p-6 rounded-lg max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white">WiFi Device Setup</h3>
+                <button onclick="closeWiFiModal()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="setupWiFiDevice(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">WiFi Network (SSID)</label>
+                    <input type="text" id="wifiSSID" class="w-full p-2 bg-slate-700 text-white rounded" placeholder="Enter WiFi network name" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">WiFi Password</label>
+                    <input type="password" id="wifiPassword" class="w-full p-2 bg-slate-700 text-white rounded" placeholder="Enter WiFi password">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">Device Type</label>
+                    <select id="deviceType" class="w-full p-2 bg-slate-700 text-white rounded">
+                        <option value="sensor">Sensor Device</option>
+                        <option value="controller">Controller</option>
+                        <option value="gateway">Gateway</option>
+                        <option value="actuator">Actuator</option>
+                    </select>
+                </div>
+                <div class="flex space-x-2">
+                    <button type="submit" class="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                        Connect Device
+                    </button>
+                    <button type="button" onclick="closeWiFiModal()" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MQTT Modal -->
+    <div id="mqttModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-slate-800 p-6 rounded-lg max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white">MQTT Integration Setup</h3>
+                <button onclick="closeMQTTModal()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="setupMQTTDevice(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">Device ID</label>
+                    <input type="text" id="mqttDeviceId" class="w-full p-2 bg-slate-700 text-white rounded" placeholder="e.g., factory_sensor_01" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">MQTT Topic</label>
+                    <input type="text" id="mqttTopic" class="w-full p-2 bg-slate-700 text-white rounded" placeholder="e.g., smartx/sensors/factory_sensor_01" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">Broker Details</label>
+                    <div class="bg-slate-700 p-3 rounded text-sm">
+                        <p class="text-green-400">Broker: localhost:1883</p>
+                        <p class="text-blue-400">Username/Password: Optional</p>
+                        <p class="text-yellow-400">Use TLS: Recommended for production</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button type="submit" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+                        Configure MQTT
+                    </button>
+                    <button type="button" onclick="closeMQTTModal()" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CSV Import Modal -->
+    <div id="csvModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-slate-800 p-6 rounded-lg max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white">Bulk Device Import</h3>
+                <button onclick="closeCSVModal()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="uploadCSVFile(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">CSV File</label>
+                    <input type="file" id="csvFile" accept=".csv" class="w-full p-2 bg-slate-700 text-white rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">CSV Format</label>
+                    <div class="bg-slate-700 p-3 rounded text-sm">
+                        <p class="text-green-400">Required columns:</p>
+                        <p class="text-blue-400">device_id, device_type, location, description</p>
+                        <p class="text-yellow-400">Example: sensor_01, temperature, floor_1, Temperature sensor</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button type="submit" class="flex-1 px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700">
+                        Import Devices
+                    </button>
+                    <button type="button" onclick="closeCSVModal()" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // QR Code Modal Functions
+        function openQRModal() {
+            document.getElementById('qrModal').classList.remove('hidden');
+        }
+
+        function closeQRModal() {
+            document.getElementById('qrModal').classList.add('hidden');
+            stopCamera();
+        }
+
+        function startQRCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    const video = document.getElementById('qrVideo');
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(err => {
+                    alert('Camera access denied or not available');
+                    console.error('Camera error:', err);
+                });
+        }
+
+        function stopCamera() {
+            const video = document.getElementById('qrVideo');
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+            }
+        }
+
+        // WiFi Modal Functions
+        function openWiFiModal() {
+            document.getElementById('wifiModal').classList.remove('hidden');
+        }
+
+        function closeWiFiModal() {
+            document.getElementById('wifiModal').classList.add('hidden');
+        }
+
+        function setupWiFiDevice(event) {
+            event.preventDefault();
+            const ssid = document.getElementById('wifiSSID').value;
+            const password = document.getElementById('wifiPassword').value;
+            const deviceType = document.getElementById('deviceType').value;
+
+            fetch('/api/device-connection/wifi-setup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    wifi_ssid: ssid,
+                    wifi_password: password,
+                    device_type: deviceType
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message || 'WiFi device setup successful!');
+                closeWiFiModal();
+            })
+            .catch(error => {
+                alert('WiFi setup failed: ' + error.message);
+            });
+        }
+
+        // MQTT Modal Functions
+        function openMQTTModal() {
+            document.getElementById('mqttModal').classList.remove('hidden');
+        }
+
+        function closeMQTTModal() {
+            document.getElementById('mqttModal').classList.add('hidden');
+        }
+
+        function setupMQTTDevice(event) {
+            event.preventDefault();
+            const deviceId = document.getElementById('mqttDeviceId').value;
+            const topic = document.getElementById('mqttTopic').value;
+
+            fetch('/api/device-connection/mqtt-setup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    device_id: deviceId,
+                    mqtt_topic: topic
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message || 'MQTT device setup successful!');
+                closeMQTTModal();
+            })
+            .catch(error => {
+                alert('MQTT setup failed: ' + error.message);
+            });
+        }
+
+        // CSV Modal Functions
+        function openCSVModal() {
+            document.getElementById('csvModal').classList.remove('hidden');
+        }
+
+        function closeCSVModal() {
+            document.getElementById('csvModal').classList.add('hidden');
+        }
+
+        function uploadCSVFile(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('csvFile');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a CSV file');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/api/device-connection/bulk-import', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message || 'CSV import successful!');
+                closeCSVModal();
+            })
+            .catch(error => {
+                alert('CSV import failed: ' + error.message);
+            });
+        }
+    </script>
 </body>
 </html>

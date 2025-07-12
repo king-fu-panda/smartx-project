@@ -17,9 +17,18 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
 
-# MongoDB Configuration
-app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://localhost:27017/smartx_iot")
-mongo = PyMongo(app)
+# MongoDB Configuration (optional for prototype)
+try:
+    app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://localhost:27017/smartx_iot")
+    mongo = PyMongo(app)
+    # Test connection
+    mongo.db.list_collection_names()
+    MONGODB_AVAILABLE = True
+    app.logger.info("MongoDB connected successfully")
+except Exception as e:
+    app.logger.warning(f"MongoDB not available, using fallback mode: {str(e)}")
+    mongo = None
+    MONGODB_AVAILABLE = False
 
 # Initialize Flask-Login
 login_manager = LoginManager()
@@ -80,8 +89,11 @@ def on_message(client, userdata, msg):
             'data': payload
         }
         
-        # Store in MongoDB
-        mongo.db.sensor_data.insert_one(sensor_data)
+        # Store in MongoDB if available, otherwise use JSON file
+        if MONGODB_AVAILABLE and mongo:
+            mongo.db.sensor_data.insert_one(sensor_data)
+        else:
+            store_data_to_file(sensor_data)
         
         # Update latest data cache
         latest_sensor_data[device_id] = payload
@@ -90,6 +102,43 @@ def on_message(client, userdata, msg):
         
     except Exception as e:
         app.logger.error(f"Error processing MQTT message: {str(e)}")
+
+def store_data_to_file(sensor_data):
+    """Store sensor data to JSON file as fallback"""
+    try:
+        # Convert datetime to string for JSON serialization
+        data_to_store = sensor_data.copy()
+        data_to_store['timestamp'] = sensor_data['timestamp'].isoformat()
+        
+        # Read existing data
+        try:
+            with open('sensor_data.json', 'r') as f:
+                existing_data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            existing_data = []
+        
+        # Add new data and keep only last 100 records
+        existing_data.append(data_to_store)
+        if len(existing_data) > 100:
+            existing_data = existing_data[-100:]
+        
+        # Save back to file
+        with open('sensor_data.json', 'w') as f:
+            json.dump(existing_data, f, indent=2)
+            
+    except Exception as e:
+        app.logger.error(f"Error storing data to file: {str(e)}")
+
+def get_data_from_file():
+    """Get latest sensor data from JSON file"""
+    try:
+        with open('sensor_data.json', 'r') as f:
+            data = json.load(f)
+            if data:
+                return data[-1]['data']  # Return latest data
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
+        pass
+    return None
 
 def initialize_mqtt():
     global mqtt_client
@@ -109,7 +158,7 @@ def initialize_mqtt():
 
 # Helper functions for data management
 def get_latest_sensor_data():
-    """Get the latest sensor data from MongoDB or cache"""
+    """Get the latest sensor data from MongoDB, file, or cache"""
     try:
         # Try to get from cache first
         if latest_sensor_data:
@@ -118,10 +167,16 @@ def get_latest_sensor_data():
                               key=lambda k: latest_sensor_data[k].get('timestamp', 0))
             return latest_sensor_data[latest_device]
         
-        # Fallback to MongoDB
-        latest_doc = mongo.db.sensor_data.find_one(sort=[('timestamp', -1)])
-        if latest_doc:
-            return latest_doc['data']
+        # Try MongoDB if available
+        if MONGODB_AVAILABLE and mongo:
+            latest_doc = mongo.db.sensor_data.find_one(sort=[('timestamp', -1)])
+            if latest_doc:
+                return latest_doc['data']
+        
+        # Try file storage
+        file_data = get_data_from_file()
+        if file_data:
+            return file_data
             
     except Exception as e:
         app.logger.error(f"Error getting sensor data: {str(e)}")
@@ -176,6 +231,12 @@ def logout():
     logout_user()
     flash("You have been logged out", "info")
     return redirect(url_for('start_page'))
+
+@app.route("/back-to-features")
+@login_required
+def back_to_features():
+    """Route to go back to main features page"""
+    return redirect(url_for('home'))
 
 @app.route("/")
 def start_page():
@@ -232,14 +293,17 @@ def receive_device_data():
         if not all(field in data for field in required_fields):
             return jsonify({"error": "Missing required fields"}), 400
         
-        # Store in MongoDB
+        # Store in MongoDB or file
         sensor_data = {
             'device_id': device_id,
             'timestamp': datetime.utcnow(),
             'data': data
         }
         
-        mongo.db.sensor_data.insert_one(sensor_data)
+        if MONGODB_AVAILABLE and mongo:
+            mongo.db.sensor_data.insert_one(sensor_data)
+        else:
+            store_data_to_file(sensor_data)
         
         # Update cache
         latest_sensor_data[device_id] = data

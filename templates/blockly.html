@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,6 +58,9 @@
     <header class="bg-gray-800 shadow-lg p-4">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-4">
+                <a href="/home" class="text-blue-400 hover:text-blue-300 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Features
+                </a>
                 <h1 class="text-2xl font-bold text-blue-400">
                     <i class="fas fa-cube mr-2"></i>SmartX No-Code Builder
                 </h1>
@@ -268,7 +270,7 @@
             <block type="logic_null"></block>
             <block type="logic_ternary"></block>
         </category>
-        
+
         <category name="Loops" colour="#5ba55b">
             <block type="controls_repeat_ext"></block>
             <block type="controls_whileUntil"></block>
@@ -276,7 +278,7 @@
             <block type="controls_forEach"></block>
             <block type="controls_flow_statements"></block>
         </category>
-        
+
         <category name="Math" colour="#5b67a5">
             <block type="math_number"></block>
             <block type="math_arithmetic"></block>
@@ -291,7 +293,7 @@
             <block type="math_random_int"></block>
             <block type="math_random_float"></block>
         </category>
-        
+
         <category name="Text" colour="#5ba58c">
             <block type="text"></block>
             <block type="text_join"></block>
@@ -306,7 +308,7 @@
             <block type="text_print"></block>
             <block type="text_prompt_ext"></block>
         </category>
-        
+
         <category name="Lists" colour="#745ba5">
             <block type="lists_create_with"></block>
             <block type="lists_repeat"></block>
@@ -319,11 +321,11 @@
             <block type="lists_split"></block>
             <block type="lists_sort"></block>
         </category>
-        
+
         <category name="Variables" colour="#a55b80" custom="VARIABLE"></category>
-        
+
         <category name="Functions" colour="#995ba5" custom="PROCEDURE"></category>
-        
+
         <category name="SmartX Sensors" colour="#ff6b35">
             <block type="smartx_read_temperature"></block>
             <block type="smartx_read_pressure"></block>
@@ -336,7 +338,7 @@
             <block type="smartx_read_conductivity"></block>
             <block type="smartx_read_gas"></block>
         </category>
-        
+
         <category name="SmartX Actions" colour="#ff9500">
             <block type="smartx_send_alert"></block>
             <block type="smartx_log_event"></block>
@@ -347,7 +349,7 @@
             <block type="smartx_trigger_alarm"></block>
             <block type="smartx_create_report"></block>
         </category>
-        
+
         <category name="Data Processing" colour="#00a8cc">
             <block type="smartx_filter_data"></block>
             <block type="smartx_calculate_average"></block>
@@ -356,7 +358,7 @@
             <block type="smartx_transform_data"></block>
             <block type="smartx_validate_data"></block>
         </category>
-        
+
         <category name="ML & AI" colour="#6a4c93">
             <block type="smartx_predict_failure"></block>
             <block type="smartx_classify_data"></block>
@@ -364,7 +366,7 @@
             <block type="smartx_detect_pattern"></block>
             <block type="smartx_forecast_trend"></block>
         </category>
-        
+
         <category name="Communication" colour="#1982c4">
             <block type="smartx_mqtt_publish"></block>
             <block type="smartx_mqtt_subscribe"></block>
@@ -372,7 +374,7 @@
             <block type="smartx_send_email"></block>
             <block type="smartx_webhook"></block>
         </category>
-        
+
         <category name="Time & Schedule" colour="#8ac926">
             <block type="smartx_wait_seconds"></block>
             <block type="smartx_get_timestamp"></block>
